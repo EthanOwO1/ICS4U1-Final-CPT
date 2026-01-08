@@ -1,20 +1,14 @@
 package dragdrop;
 
-import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class dragdrop implements ActionListener,MouseListener,MouseMotionListener{
+public class dragdrop implements MouseListener,MouseMotionListener{
     // Properties
     JFrame theFrame = new JFrame("Drag Drop Test"); 
     JAPanel thePanel = new JAPanel(); 
     boolean blnDrag = false;
-
-    // Methods
-    @Override
-    public void actionPerformed(ActionEvent evt) {
-    }
 
     @Override
     public void mouseDragged(MouseEvent evt) {
