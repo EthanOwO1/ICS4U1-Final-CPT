@@ -22,6 +22,9 @@ public class mainProgram implements ActionListener, MouseListener{
 
   JButton playButton;
 
+  // Grids
+  BattleGrid playerGrid;
+  BattleGrid enemyGrid;
 
   // Methods
   public void actionPerformed(ActionEvent evt){
@@ -79,6 +82,11 @@ public class mainProgram implements ActionListener, MouseListener{
     thePanel.setPreferredSize(new Dimension(1280,720)); 
     thePanel.setLayout(null); 
     mainMenuPanel.setPreferredSize(new Dimension(1280,720));
+    
+    playerGrid = new BattleGrid(190, 160, 50);
+    thePanel.add(playerGrid);
+    enemyGrid = new BattleGrid(690, 160, 50);
+    thePanel.add(enemyGrid);
 
     theFrame.setJMenuBar(theMenuBar);
     theMenuBar.add(theMenu);
