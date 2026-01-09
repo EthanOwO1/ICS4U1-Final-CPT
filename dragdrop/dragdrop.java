@@ -10,6 +10,7 @@ public class dragdrop implements MouseListener,MouseMotionListener{
     JAPanel thePanel = new JAPanel(); 
     boolean blnDrag = false;
 
+    // Methods
     @Override
     public void mouseDragged(MouseEvent evt) {
         int intCenterY = thePanel.intOy+25; 
@@ -17,14 +18,14 @@ public class dragdrop implements MouseListener,MouseMotionListener{
         if(blnDrag == true){
             thePanel.repaint(); 
             if(evt.getY()<intCenterY){
-                thePanel.intOy = thePanel.intOy-5; 
+                thePanel.intOy = thePanel.intOy-10; 
             }else if(evt.getY()>intCenterY){
-                thePanel.intOy = thePanel.intOy+5; 
+                thePanel.intOy = thePanel.intOy+10; 
             }
             if(evt.getX()<intCenterX){
-                thePanel.intOx = thePanel.intOx-5; 
+                thePanel.intOx = thePanel.intOx-10; 
             }else if(evt.getX()>intCenterX){
-                thePanel.intOx = thePanel.intOx+5; 
+                thePanel.intOx = thePanel.intOx+10; 
             }
         }
     }
