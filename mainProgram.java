@@ -5,6 +5,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 
 public class mainProgram implements ActionListener, MouseListener{
@@ -31,6 +32,7 @@ public class mainProgram implements ActionListener, MouseListener{
       if(evt.getSource() == playButton){
         theFrame.setContentPane(thePanel);
         theFrame.pack();
+        theFrame.repaint();
       }
   }
   @Override
@@ -54,7 +56,6 @@ public class mainProgram implements ActionListener, MouseListener{
     playButton = new JButton("Play");
 
     Font currentFont = theTitle.getFont();
-
     Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 20f);
 
     theTitle.setFont(biggerFont);
@@ -83,9 +84,9 @@ public class mainProgram implements ActionListener, MouseListener{
     thePanel.setLayout(null); 
     mainMenuPanel.setPreferredSize(new Dimension(1280,720));
     
-    playerGrid = new BattleGrid(190, 160, 50);
+    playerGrid = new BattleGrid(141, 125, 40);
     thePanel.add(playerGrid);
-    enemyGrid = new BattleGrid(690, 160, 50);
+    enemyGrid = new BattleGrid(766, 125, 40);
     thePanel.add(enemyGrid);
 
     theFrame.setJMenuBar(theMenuBar);
@@ -100,7 +101,6 @@ public class mainProgram implements ActionListener, MouseListener{
   }
 
   // Main Method
-
   public static void main(String[] args){
     new mainProgram();
   }
