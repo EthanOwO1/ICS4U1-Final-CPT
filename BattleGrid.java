@@ -6,8 +6,8 @@ public class BattleGrid extends JPanel {
     // Properties
     
     int cellSize;
-    int rows = 10;
-    int cols = 10;
+    int rows = 8;
+    int cols = 8;
 
     public BattleGrid(int x, int y, int cellSize) {
         this.cellSize = cellSize;
@@ -27,7 +27,7 @@ public class BattleGrid extends JPanel {
     }
 
     // Inner class for the PopUp Window
-    static class PopUpWindow extends JFrame {
+    public static class PopUpWindow extends JFrame {
         public PopUpWindow() {
             super("Pop Out Panel");
             this.setSize(400, 300);
