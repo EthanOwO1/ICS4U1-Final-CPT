@@ -22,12 +22,18 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   JMenuItem about = new JMenuItem("About");
 
   JButton playButton;
+  JButton helpbutton;
+  JButton exitButton;
 
   int intDrag = 0;
   
   // Grids
   BattleGrid playerGrid;
   BattleGrid enemyGrid;
+
+   //button panels
+  helpPanel helpScreen;
+
 
   // Methods
   public void actionPerformed(ActionEvent evt){
@@ -36,6 +42,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       theFrame.pack();
       theFrame.repaint();
     }
+    if(evt.getSource() == helpbutton){
+        theFrame.setContentPane(helpScreen);
+        theFrame.pack();
+        theFrame.repaint();
+}
   }
   @Override
   public void mouseDragged(MouseEvent evt) {
@@ -156,9 +167,12 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   public void mouseExited(MouseEvent evt) {
   }
 
+  //main menu
   public void mainMenu(){
     JLabel theTitle = new JLabel("Battleships");
     playButton = new JButton("Play");
+    helpbutton = new JButton("Help");
+    exitButton = new JButton("Exit");
 
     Font currentFont = theTitle.getFont();
     Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 20f);
@@ -176,6 +190,18 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     playButton.setLocation(600, 300);
     playButton.addActionListener(this);
     mainMenuPanel.add(playButton);
+
+    helpbutton.setSize(100, 30);
+    helpbutton.setLocation(600, 350);
+    helpbutton.addActionListener(this);
+    mainMenuPanel.add(helpbutton);
+
+    exitButton = new JButton("Exit");
+    exitButton.setSize(100, 30);
+    exitButton.setLocation(600, 400);
+    exitButton.addActionListener(e -> System.exit(0));
+    mainMenuPanel.add(exitButton);
+
     
     theFrame.pack();
   }
@@ -197,6 +223,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     enemyGrid = new BattleGrid(766, 125, 40);
     thePanel.add(enemyGrid);
 
+    helpScreen = new helpPanel();
+    helpScreen.setPreferredSize(new Dimension(1280, 720));
+    helpScreen.setLayout(null);
+
+
     theFrame.setJMenuBar(theMenuBar);
     theMenuBar.add(theMenu);
 
@@ -206,6 +237,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     theFrame.pack(); 
     theFrame.setVisible(true); 
+  }
+
+  public void showScreen(String string) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'showScreen'");
   }
 
   // Main Method
