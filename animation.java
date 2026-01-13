@@ -12,16 +12,26 @@ public class animation extends JPanel{
     BufferedImage ship2Image; 
     BufferedImage ship4Image; 
     BufferedImage ship5Image; 
+    int int1Ship3X = 150; 
+    int int1Ship3Y = 550; 
+    int int2Ship3X = 290;
+    int int2Ship3Y = 550; 
+    int intShip2X = 430; 
+    int intShip2Y = 550; 
+    int intShip4X = 150; 
+    int intShip4Y = 600; 
+    int intShip5X = 330; 
+    int intShip5Y = 600; 
 
     // Methods
     public void paintComponent(Graphics g){ 
         super.paintComponent(g);
         g.drawImage(battleImage,0,0,null); 
-        g.drawImage(oneShip3Image,150,550,null);
-        g.drawImage(twoShip3Image,290,550,null);
-        g.drawImage(ship2Image,430,550,null);
-        g.drawImage(ship4Image,150,600,null);
-        g.drawImage(ship5Image,330,600,null);
+        g.drawImage(oneShip3Image,int1Ship3X,int1Ship3Y,null);
+        g.drawImage(twoShip3Image,int2Ship3X,int2Ship3Y,null);
+        g.drawImage(ship2Image,intShip2X,intShip2Y,null);
+        g.drawImage(ship4Image,intShip4X,intShip4Y,null);
+        g.drawImage(ship5Image,intShip5X,intShip5Y,null);
 
     }
 

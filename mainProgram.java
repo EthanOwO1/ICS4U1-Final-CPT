@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 
-public class mainProgram implements ActionListener, MouseListener{
+public class mainProgram implements ActionListener, MouseListener, MouseMotionListener{
   
   // Properties 
   JFrame theFrame = new JFrame("Battleship"); 
@@ -23,32 +23,137 @@ public class mainProgram implements ActionListener, MouseListener{
 
   JButton playButton;
 
+  int intDrag = 0;
+  
   // Grids
   BattleGrid playerGrid;
   BattleGrid enemyGrid;
 
   // Methods
   public void actionPerformed(ActionEvent evt){
-      if(evt.getSource() == playButton){
-        theFrame.setContentPane(thePanel);
-        theFrame.pack();
-        theFrame.repaint();
+    if(evt.getSource() == playButton){
+      theFrame.setContentPane(thePanel);
+      theFrame.pack();
+      theFrame.repaint();
+    }
+  }
+  @Override
+  public void mouseDragged(MouseEvent evt) {
+    thePanel.repaint(); 
+    if(intDrag==1){
+      // 1st Ship 3
+      int intCenterX = thePanel.int1Ship3X+65; 
+      int intCenterY = thePanel.int1Ship3Y+25; 
+      if(evt.getY()<intCenterY){
+        thePanel.int1Ship3Y -= 10;
+      }else if(evt.getY()>intCenterY){
+        thePanel.int1Ship3Y += 10; 
       }
+      if(evt.getX()<intCenterX){
+        thePanel.int1Ship3X -= 10;
+      }else if(evt.getX()>intCenterX){
+        thePanel.int1Ship3X += 10; 
+      }
+    }else if(intDrag==2){
+      // 2nd Ship 3
+      int intCenterX = thePanel.int2Ship3X+65; 
+      int intCenterY = thePanel.int2Ship3Y+25; 
+      if(evt.getY()<intCenterY){
+        thePanel.int2Ship3Y -= 10;
+      }else if(evt.getY()>intCenterY){
+        thePanel.int2Ship3Y += 10; 
+      }
+      if(evt.getX()<intCenterX){
+        thePanel.int2Ship3X -= 10;
+      }else if(evt.getX()>intCenterX){
+        thePanel.int2Ship3X += 10; 
+      }
+    }else if(intDrag==3){
+      // Ship 2
+      int intCenterX = thePanel.intShip2X+50; 
+      int intCenterY = thePanel.intShip2Y+25; 
+      if(evt.getY()<intCenterY){
+        thePanel.intShip2Y -= 10;
+      }else if(evt.getY()>intCenterY){
+        thePanel.intShip2Y += 10; 
+      }
+      if(evt.getX()<intCenterX){
+        thePanel.intShip2X -= 10;
+      }else if(evt.getX()>intCenterX){
+        thePanel.intShip2X += 10; 
+      }
+    }else if(intDrag==4){
+      // Ship 4
+      int intCenterX = thePanel.intShip4X+85; 
+      int intCenterY = thePanel.intShip4Y+25; 
+      if(evt.getY()<intCenterY){
+        thePanel.intShip4Y -= 10;
+      }else if(evt.getY()>intCenterY){
+        thePanel.intShip4Y += 10; 
+      }
+      if(evt.getX()<intCenterX){
+        thePanel.intShip4X -= 10;
+      }else if(evt.getX()>intCenterX){
+        thePanel.intShip4X += 10; 
+      }
+    }else if(intDrag==5){
+      // Ship 5
+      int intCenterX = thePanel.intShip5X+108; 
+      int intCenterY = thePanel.intShip5Y+25; 
+      if(evt.getY()<intCenterY){
+        thePanel.intShip5Y -= 10;
+      }else if(evt.getY()>intCenterY){
+        thePanel.intShip5Y += 10; 
+      }
+      if(evt.getX()<intCenterX){
+        thePanel.intShip5X -= 10;
+      }else if(evt.getX()>intCenterX){
+        thePanel.intShip5X += 10; 
+      }
+    }
+    
+
   }
   @Override
-  public void mouseClicked(MouseEvent e) {
+  public void mouseMoved(MouseEvent evt) {
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent evt) {
   }
   @Override
-  public void mousePressed(MouseEvent e) {
+  public void mousePressed(MouseEvent evt) {
+    // 1st Ship 3
+    if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+130 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+50){
+      intDrag = 1; 
+    }
+    // 2nd Ship 3
+    if(evt.getX()>=thePanel.int2Ship3X && evt.getX()<=thePanel.int2Ship3X+130 && evt.getY()>=thePanel.int2Ship3Y && evt.getY()<=thePanel.int2Ship3Y+50){
+      intDrag = 2;
+    }
+    // Ship 2
+    if(evt.getX()>=thePanel.intShip2X && evt.getX()<=thePanel.intShip2X+100 && evt.getY()>=thePanel.intShip2Y && evt.getY()<=thePanel.intShip2Y+50){
+      intDrag = 3;
+    }
+    // Ship 4
+    if(evt.getX()>=thePanel.intShip4X && evt.getX()<=thePanel.intShip4X+170 && evt.getY()>=thePanel.intShip4Y && evt.getY()<=thePanel.intShip4Y+50){
+      intDrag = 4;
+    }
+    // Ship 5
+    if(evt.getX()>=thePanel.intShip5X && evt.getX()<=thePanel.intShip5X+215 && evt.getY()>=thePanel.intShip5Y && evt.getY()<=thePanel.intShip5Y+50){
+      intDrag = 5;
+    }
+
   }
   @Override
-  public void mouseReleased(MouseEvent e) {
+  public void mouseReleased(MouseEvent evt) {
+    intDrag = 0;
   }
   @Override
-  public void mouseEntered(MouseEvent e) {
+  public void mouseEntered(MouseEvent evt) {
   }
   @Override
-  public void mouseExited(MouseEvent e) {
+  public void mouseExited(MouseEvent evt) {
   }
 
   public void mainMenu(){
@@ -79,6 +184,9 @@ public class mainProgram implements ActionListener, MouseListener{
   public mainProgram(){
 
     mainMenu();
+
+    thePanel.addMouseMotionListener(this);
+    thePanel.addMouseListener(this);
 
     thePanel.setPreferredSize(new Dimension(1280,720)); 
     thePanel.setLayout(null); 
