@@ -6,8 +6,8 @@ public class BattleGrid extends JPanel {
     // Properties
     
     int cellSize;
-    int rows = 8;
-    int cols = 8;
+    int rows = 10;
+    int cols = 10;
 
     public BattleGrid(int x, int y, int cellSize) {
         this.cellSize = cellSize;
