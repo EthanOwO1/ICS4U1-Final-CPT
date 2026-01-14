@@ -38,12 +38,12 @@ public class animation extends JPanel{
     // Constructors
     public animation(){
         super(); 
-        InputStream battleStream = this.getClass().getResourceAsStream("battleship grid.png"); 
-        InputStream oneShip3Stream = this.getClass().getResourceAsStream("1ship3.png"); 
-        InputStream twoShip3Stream = this.getClass().getResourceAsStream("2ship3.png"); 
-        InputStream ship2Stream = this.getClass().getResourceAsStream("ship2.png"); 
-        InputStream ship4Stream = this.getClass().getResourceAsStream("ship4.png"); 
-        InputStream ship5Stream = this.getClass().getResourceAsStream("ship5.png"); 
+        InputStream battleStream = this.getClass().getResourceAsStream("graphics/battleship grid.png"); 
+        InputStream oneShip3Stream = this.getClass().getResourceAsStream("graphics/1ship3.png"); 
+        InputStream twoShip3Stream = this.getClass().getResourceAsStream("graphics/2ship3.png"); 
+        InputStream ship2Stream = this.getClass().getResourceAsStream("graphics/ship2.png"); 
+        InputStream ship4Stream = this.getClass().getResourceAsStream("graphics/ship4.png"); 
+        InputStream ship5Stream = this.getClass().getResourceAsStream("graphics/ship5.png"); 
         try{
             battleImage = ImageIO.read(battleStream);
             oneShip3Image = ImageIO.read(oneShip3Stream);

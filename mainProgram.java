@@ -26,6 +26,8 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   JButton exitButton;
 
   int intDrag = 0;
+  int intOffsetX = 0;
+  int intOffsetY = 0;
   
   // Grids
   BattleGrid playerGrid;
@@ -51,47 +53,49 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   @Override
   public void mouseDragged(MouseEvent evt) {
     thePanel.repaint(); 
+
+      int gridX = 141;
+      int gridY = 125;
+      int cellSize = 40;
+      int gridSize = 400;
+
     if(intDrag==1){
       // 1st Ship 3
-      int intCenterX = thePanel.int1Ship3X+65; 
-      int intCenterY = thePanel.int1Ship3Y+25; 
-      if(evt.getY()<intCenterY){
-        thePanel.int1Ship3Y -= 10;
-      }else if(evt.getY()>intCenterY){
-        thePanel.int1Ship3Y += 10; 
+
+      int rawX = evt.getX() - intOffsetX;
+      int rawY = evt.getY() - intOffsetY;
+
+      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+        thePanel.int1Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
+        thePanel.int1Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
+      }else{
+        thePanel.int1Ship3X = rawX;
+        thePanel.int1Ship3Y = rawY;
       }
-      if(evt.getX()<intCenterX){
-        thePanel.int1Ship3X -= 10;
-      }else if(evt.getX()>intCenterX){
-        thePanel.int1Ship3X += 10; 
-      }
+
     }else if(intDrag==2){
       // 2nd Ship 3
-      int intCenterX = thePanel.int2Ship3X+65; 
-      int intCenterY = thePanel.int2Ship3Y+25; 
-      if(evt.getY()<intCenterY){
-        thePanel.int2Ship3Y -= 10;
-      }else if(evt.getY()>intCenterY){
-        thePanel.int2Ship3Y += 10; 
-      }
-      if(evt.getX()<intCenterX){
-        thePanel.int2Ship3X -= 10;
-      }else if(evt.getX()>intCenterX){
-        thePanel.int2Ship3X += 10; 
+      int rawX = evt.getX() - intOffsetX;
+      int rawY = evt.getY() - intOffsetY;
+
+      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+        thePanel.int2Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
+        thePanel.int2Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
+      }else{
+        thePanel.int2Ship3X = rawX;
+        thePanel.int2Ship3Y = rawY;
       }
     }else if(intDrag==3){
       // Ship 2
-      int intCenterX = thePanel.intShip2X+50; 
-      int intCenterY = thePanel.intShip2Y+25; 
-      if(evt.getY()<intCenterY){
-        thePanel.intShip2Y -= 10;
-      }else if(evt.getY()>intCenterY){
-        thePanel.intShip2Y += 10; 
-      }
-      if(evt.getX()<intCenterX){
-        thePanel.intShip2X -= 10;
-      }else if(evt.getX()>intCenterX){
-        thePanel.intShip2X += 10; 
+      int rawX = evt.getX() - intOffsetX;
+      int rawY = evt.getY() - intOffsetY;
+
+      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+        thePanel.int1Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
+        thePanel.int1Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
+      }else{
+        thePanel.int1Ship3X = rawX;
+        thePanel.int1Ship3Y = rawY;
       }
     }else if(intDrag==4){
       // Ship 4
@@ -137,22 +141,33 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     // 1st Ship 3
     if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+130 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+50){
       intDrag = 1; 
+      intOffsetX = evt.getX() - thePanel.int1Ship3X;
+      intOffsetY = evt.getY() - thePanel.int1Ship3Y;
     }
     // 2nd Ship 3
     if(evt.getX()>=thePanel.int2Ship3X && evt.getX()<=thePanel.int2Ship3X+130 && evt.getY()>=thePanel.int2Ship3Y && evt.getY()<=thePanel.int2Ship3Y+50){
       intDrag = 2;
+      intOffsetX = evt.getX() - thePanel.int2Ship3X;
+      intOffsetY = evt.getY() - thePanel.int2Ship3Y;
     }
     // Ship 2
     if(evt.getX()>=thePanel.intShip2X && evt.getX()<=thePanel.intShip2X+100 && evt.getY()>=thePanel.intShip2Y && evt.getY()<=thePanel.intShip2Y+50){
       intDrag = 3;
+      intOffsetX = evt.getX() - thePanel.intShip2X;
+      intOffsetY = evt.getY() - thePanel.intShip2Y;
     }
     // Ship 4
     if(evt.getX()>=thePanel.intShip4X && evt.getX()<=thePanel.intShip4X+170 && evt.getY()>=thePanel.intShip4Y && evt.getY()<=thePanel.intShip4Y+50){
       intDrag = 4;
+      intOffsetX = evt.getX() - thePanel.intShip4X;
+      intOffsetY = evt.getY() - thePanel.intShip4Y;
+
     }
     // Ship 5
     if(evt.getX()>=thePanel.intShip5X && evt.getX()<=thePanel.intShip5X+215 && evt.getY()>=thePanel.intShip5Y && evt.getY()<=thePanel.intShip5Y+50){
       intDrag = 5;
+      intOffsetX = evt.getX() - thePanel.intShip5X;
+      intOffsetY = evt.getY() - thePanel.intShip5Y;
     }
 
   }
