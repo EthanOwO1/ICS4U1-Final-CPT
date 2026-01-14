@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.io.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class chat implements ActionListener{
+public class chat implements ActionListener, MouseListener{
   // Properties
   JFrame theframe = new JFrame("Chat");
   JPanel thepanel = new JPanel();
@@ -13,19 +14,27 @@ public class chat implements ActionListener{
   JButton butServer = new JButton("Server mode");
   JButton butConnect = new JButton("Connect");
   SuperSocketMaster ssm = null;
+  String strName = "Player1";
+  PrintWriter chatlog;
+
+  
 
   // Methods
 
   public void actionPerformed(ActionEvent evt){
     if(evt.getSource() == theField){
+      // The format of the chat should follow the following: "PlayerName, XCoordinate, YCoordinate, Action" - Game Messages
+      // The format of the chat should follow the following: "PlayerName: Message" - Regular Messages
       System.out.println("Text Field Action");
-      String strLine = theField.getText();
-      ssm.sendText(strLine);
-      theArea.append(strLine + "\n");
+      String strFormatted = strName + ": " + theField.getText();
+      ssm.sendText(strFormatted);
+      theArea.append(strFormatted + "\n");
+      theField.setText("");
 
     } else if(evt.getSource() == butClient){
       System.out.println("Client Button Activated");
       ssm = new SuperSocketMaster(theField.getText(), 6112, this);
+      strName = "Player2";
       theField.setText("");
       butClient.setEnabled(false);
       butServer.setEnabled(false);
@@ -33,16 +42,25 @@ public class chat implements ActionListener{
     } else if(evt.getSource() == butServer){
       System.out.println("Server Button Action");
       ssm = new SuperSocketMaster(6112, this);
+      strName = "Player1";
       butClient.setEnabled(false);
       butServer.setEnabled(false);
 
     } else if(evt.getSource() == butConnect){
-      System.out.println("Connect Button Action");      
-      ssm.connect();
+      System.out.println("Connect Button Action"); 
+      
+      if(ssm.connect()){
+        theArea.append("Connection Successful\n");
+        butConnect.setEnabled(false);
+        theField.setText("");
+      } else {
+        theArea.append("Connection Failed\n");
+      }
 
     } else if(evt.getSource() == ssm){
       String strLine = ssm.readText();
       theArea.append(strLine + "\n");
+      
     }
   }
 
@@ -75,13 +93,47 @@ public class chat implements ActionListener{
     butConnect.addActionListener(this);
     thepanel.add(butConnect);
 
+    thepanel.addMouseListener(this);
+
     theframe.setContentPane(thepanel);
     theframe.pack();
     theframe.setVisible(true);
+
+    try {
+      chatlog = new PrintWriter(new FileWriter("chatlog.txt"));
+    } catch (IOException e) {
+      
+    }
+
   }
 
   // Main Method
   public static void main(String[] args){
     new chat();
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    int intMouseX = e.getX();
+    int intMouseY = e.getY();
+    String strFormatted = strName + ", " + intMouseX + ", " + intMouseY + ", Click";
+    ssm.sendText(strFormatted);
+    theArea.append(strFormatted + "\n");
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
   }
 }
