@@ -33,6 +33,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
 
    //button panels
   helpPanel helpScreen;
+  chatPanel connectScreen;
 
 
   // Methods
@@ -42,6 +43,12 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       theFrame.pack();
       theFrame.repaint();
     }
+    if(evt.getSource() == playButton){
+        theFrame.setContentPane(connectScreen);
+        theFrame.pack();
+        theFrame.repaint();
+}
+
     if(evt.getSource() == helpbutton){
         theFrame.setContentPane(helpScreen);
         theFrame.pack();
@@ -217,6 +224,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     thePanel.setPreferredSize(new Dimension(1280,720)); 
     thePanel.setLayout(null); 
     mainMenuPanel.setPreferredSize(new Dimension(1280,720));
+
+    connectScreen = new chatPanel();
+    connectScreen.setPreferredSize(new Dimension(1280, 720));
+    connectScreen.setLayout(null);
+
     
     playerGrid = new BattleGrid(141, 125, 40);
     thePanel.add(playerGrid);

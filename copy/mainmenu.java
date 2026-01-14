@@ -1,4 +1,4 @@
-package battleship;
+package copy;
 
 import javax.swing.*;
 import java.awt.*;

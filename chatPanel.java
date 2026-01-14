@@ -3,10 +3,8 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class chat implements ActionListener, MouseListener{
+public class chatPanel extends JPanel implements ActionListener, MouseListener{
   // Properties
-  JFrame theframe = new JFrame("Chat");
-  JPanel thepanel = new JPanel();
   JTextField theField = new JTextField(); 
   JTextArea theArea = new JTextArea();
   JScrollPane theScroll = new JScrollPane(theArea);
@@ -65,39 +63,35 @@ public class chat implements ActionListener, MouseListener{
   }
 
   // Constructors
-  public chat(){
-    thepanel.setPreferredSize(new Dimension(1280,720));
-    thepanel.setLayout(null);
+  public chatPanel(){
+    setPreferredSize(new Dimension(1280,720));
+    setLayout(null);
 
     theScroll.setSize(300,600);
     theScroll.setLocation(980,0);
-    thepanel.add(theScroll);
+    add(theScroll);
 
     theField.setSize(300,100);
     theField.setLocation(980,600);
     theField.addActionListener(this);
-    thepanel.add(theField);
+    add(theField);
 
     butClient.setSize(300,100);
     butClient.setLocation(0,300);
     butClient.addActionListener(this);
-    thepanel.add(butClient);
+    add(butClient);
 
     butServer.setSize(300,100);
     butServer.setLocation(0,400);
     butServer.addActionListener(this);
-    thepanel.add(butServer);
+    add(butServer);
 
     butConnect.setSize(300,100);
     butConnect.setLocation(0,500);
     butConnect.addActionListener(this);
-    thepanel.add(butConnect);
+    add(butConnect);
 
-    thepanel.addMouseListener(this);
-
-    theframe.setContentPane(thepanel);
-    theframe.pack();
-    theframe.setVisible(true);
+    addMouseListener(this);
 
     try {
       chatlog = new PrintWriter(new FileWriter("chatlog.txt"));
@@ -109,7 +103,7 @@ public class chat implements ActionListener, MouseListener{
 
   // Main Method
   public static void main(String[] args){
-    new chat();
+    new chatPanel();
   }
 
   @Override
@@ -137,3 +131,5 @@ public class chat implements ActionListener, MouseListener{
   public void mouseExited(MouseEvent e) {
   }
 }
+
+  
