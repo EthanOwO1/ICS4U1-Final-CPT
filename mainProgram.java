@@ -202,7 +202,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     exitButton.addActionListener(e -> System.exit(0));
     mainMenuPanel.add(exitButton);
 
-    
+
     theFrame.pack();
   }
 
