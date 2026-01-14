@@ -220,7 +220,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     
     playerGrid = new BattleGrid(141, 125, 40);
     thePanel.add(playerGrid);
-    enemyGrid = new BattleGrid(766, 125, 40);
+    enemyGrid = new BattleGrid(625, 125, 40);
     thePanel.add(enemyGrid);
 
     helpScreen = new helpPanel();
