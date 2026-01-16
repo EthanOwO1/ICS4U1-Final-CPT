@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 
-public class mainProgram implements ActionListener, MouseListener, MouseMotionListener{
+public class mainProgram implements ActionListener, MouseListener, MouseMotionListener, KeyListener{
   
   // Properties 
   JFrame theFrame = new JFrame("Battleship"); 
@@ -243,6 +243,31 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   public void mouseExited(MouseEvent evt) {
   }
 
+    @Override
+  public void keyTyped(KeyEvent evt) {
+  }
+  @Override
+  public void keyPressed(KeyEvent evt) {
+    if(evt.getKeyChar()=='r'){
+      double dblDeg = Math.PI/2;
+      if(intDrag==1){
+        thePanel.dbl1Ship3rot += dblDeg; 
+      }else if(intDrag==2){
+        thePanel.dbl2Ship3rot += dblDeg; 
+      }else if(intDrag==3){
+        thePanel.dblShip2rot += dblDeg;
+      }else if(intDrag==4){
+        thePanel.dblShip4rot += dblDeg;
+      }else if(intDrag==5){
+        thePanel.dblShip5rot += dblDeg;
+      }
+      thePanel.repaint();
+    }
+  }
+  @Override
+  public void keyReleased(KeyEvent evt) {
+  }
+
   //main menu
   public void mainMenu(){
     JLabel theTitle = new JLabel("Battleships");
@@ -322,6 +347,8 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     confirmButton.setLocation(550, 650);
     thePanel.add(confirmButton);
     
+    theFrame.addKeyListener(this); 
+
     theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     theFrame.pack(); 
     theFrame.setVisible(true); 

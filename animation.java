@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.*;
 import java.awt.image.*;
 import java.io.*;
@@ -22,18 +24,38 @@ public class animation extends JPanel{
     int intShip4Y = 600; 
     int intShip5X = 330; 
     int intShip5Y = 600; 
+    double dbl1Ship3rot = 0; 
+    double dbl2Ship3rot = 0;
+    double dblShip2rot = 0;
+    double dblShip4rot = 0;
+    double dblShip5rot = 0;
 
     // Methods
     public void paintComponent(Graphics g){ 
         super.paintComponent(g);
         g.drawImage(battleImage,0,0,null); 
-        g.drawImage(oneShip3Image,int1Ship3X,int1Ship3Y,null);
-        g.drawImage(twoShip3Image,int2Ship3X,int2Ship3Y,null);
-        g.drawImage(ship2Image,intShip2X,intShip2Y,null);
-        g.drawImage(ship4Image,intShip4X,intShip4Y,null);
-        g.drawImage(ship5Image,intShip5X,intShip5Y,null);
+        drawRotatedImage(g, oneShip3Image, int1Ship3X, int1Ship3Y, dbl1Ship3rot);
+        drawRotatedImage(g, twoShip3Image, int2Ship3X, int2Ship3Y, dbl2Ship3rot);
+        drawRotatedImage(g, ship2Image, intShip2X, intShip2Y, dblShip2rot);
+        drawRotatedImage(g, ship4Image, intShip4X, intShip4Y, dblShip4rot);
+        drawRotatedImage(g, ship5Image, intShip5X, intShip5Y, dblShip5rot);
+        
 
     }
+private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int intY, double dblRot){
+    if(image != null){
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform originalTransform = g2d.getTransform(); 
+        
+        double dblCenterX = intX + image.getWidth() / 2.0; 
+        double dblCenterY = intY + image.getHeight() / 2.0; 
+    
+        g2d.rotate(dblRot, dblCenterX, dblCenterY); 
+        g2d.drawImage(image, intX, intY, null); 
+
+        g2d.setTransform(originalTransform); 
+    }
+}
 
     // Constructors
     public animation(){
