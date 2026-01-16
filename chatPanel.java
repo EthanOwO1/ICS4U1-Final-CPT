@@ -14,6 +14,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
   SuperSocketMaster ssm = null;
   String strName = "Player1";
   PrintWriter chatlog;
+  mainProgram main;
 
   
 
@@ -31,11 +32,13 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     } else if(evt.getSource() == butClient){
       System.out.println("Client Button Activated");
-      ssm = new SuperSocketMaster(theField.getText(), 6112, this);
-      strName = "Player2";
-      theField.setText("");
-      butClient.setEnabled(false);
-      butServer.setEnabled(false);
+      String strIP = JOptionPane.showInputDialog(this, "Enter Server IP Address:");
+      if(strIP != null){
+        ssm = new SuperSocketMaster(strIP, 6112, this);
+        strName = "Player2";
+        butClient.setEnabled(false);
+        butServer.setEnabled(false);
+      }
 
     } else if(evt.getSource() == butServer){
       System.out.println("Server Button Action");
@@ -51,6 +54,9 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         theArea.append("Connection Successful\n");
         butConnect.setEnabled(false);
         theField.setText("");
+        if(main != null){
+          main.startGame();
+        }
       } else {
         theArea.append("Connection Failed\n");
       }
@@ -63,31 +69,30 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
   }
 
   // Constructors
-  public chatPanel(){
+  public chatPanel(mainProgram main){
+    this.main = main;
     setPreferredSize(new Dimension(1280,720));
     setLayout(null);
 
-    theScroll.setSize(300,600);
-    theScroll.setLocation(980,0);
-    add(theScroll);
+    theScroll.setSize(200,600);
+    theScroll.setLocation(1080,0);
 
-    theField.setSize(300,100);
-    theField.setLocation(980,600);
+    theField.setSize(200,100);
+    theField.setLocation(1080,600);
     theField.addActionListener(this);
-    add(theField);
 
     butClient.setSize(300,100);
-    butClient.setLocation(0,300);
+    butClient.setLocation(500,200);
     butClient.addActionListener(this);
     add(butClient);
 
     butServer.setSize(300,100);
-    butServer.setLocation(0,400);
+    butServer.setLocation(500,300);
     butServer.addActionListener(this);
     add(butServer);
 
     butConnect.setSize(300,100);
-    butConnect.setLocation(0,500);
+    butConnect.setLocation(500,400);
     butConnect.addActionListener(this);
     add(butConnect);
 
@@ -103,7 +108,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
   // Main Method
   public static void main(String[] args){
-    new chatPanel();
+    new chatPanel(null);
   }
 
   @Override

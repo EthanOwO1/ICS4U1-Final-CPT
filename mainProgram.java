@@ -24,12 +24,14 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   JButton playButton;
   JButton helpbutton;
   JButton exitButton;
+  JButton confirmButton;
 
   int intDrag = 0;
   int intOffsetX = 0;
   int intOffsetY = 0;
   int intOriginalX = 0;
   int intOriginalY = 0;
+  boolean shipsLocked = false;
   
   // Grids
   BattleGrid playerGrid;
@@ -57,8 +59,20 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
         theFrame.setContentPane(helpScreen);
         theFrame.pack();
         theFrame.repaint();
-}
+    }
+
+    if(evt.getSource() == confirmButton){
+      System.out.println("Ships Confirmed");
+      shipsLocked = true;
+    }
   }
+
+  public void startGame(){
+    theFrame.setContentPane(thePanel);
+    theFrame.pack();
+    theFrame.repaint();
+  }
+
   @Override
   public void mouseDragged(MouseEvent evt) {
     thePanel.repaint(); 
@@ -131,8 +145,6 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
         thePanel.intShip5Y = rawY;
       }
     }
-    
-
   }
   @Override
   public void mouseMoved(MouseEvent evt) {
@@ -143,8 +155,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   }
   @Override
   public void mousePressed(MouseEvent evt) {
+    if(shipsLocked){
+      return;
+    }
     // 1st Ship 3
-    if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+130 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+50){
+    else if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+130 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+50){
       intDrag = 1; 
       intOffsetX = evt.getX() - thePanel.int1Ship3X;
       intOffsetY = evt.getY() - thePanel.int1Ship3Y;
@@ -279,9 +294,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     thePanel.setLayout(null); 
     mainMenuPanel.setPreferredSize(new Dimension(1280,720));
 
-    connectScreen = new chatPanel();
+    connectScreen = new chatPanel(this);
     connectScreen.setPreferredSize(new Dimension(1280, 720));
     connectScreen.setLayout(null);
+    thePanel.add(connectScreen.theScroll);
+    thePanel.add(connectScreen.theField);
 
     
     playerGrid = new BattleGrid(141, 125, 40);
@@ -299,6 +316,11 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
 
     theMenu.add(instructions);
     theMenu.add(about);
+
+    confirmButton = new JButton("Confirm Ships");
+    confirmButton.setSize(150, 50);
+    confirmButton.setLocation(550, 650);
+    thePanel.add(confirmButton);
     
     theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     theFrame.pack(); 
