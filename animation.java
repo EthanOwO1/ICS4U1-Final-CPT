@@ -49,7 +49,7 @@ private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int int
         
         double dblCenterX = intX + image.getWidth() / 2.0; 
         double dblCenterY = intY + image.getHeight() / 2.0; 
-    
+        
         g2d.rotate(dblRot, dblCenterX, dblCenterY); 
         g2d.drawImage(image, intX, intY, null); 
 

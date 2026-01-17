@@ -32,15 +32,19 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   int intOriginalX = 0;
   int intOriginalY = 0;
   boolean shipsLocked = false;
+  boolean bln1Ship3Vertical = false;
+  boolean bln2Ship3Vertical = false;
+  boolean blnShip2Vertical = false;
+  boolean blnShip4Vertical = false;
+  boolean blnShip5Vertical = false;
   
   // Grids
   BattleGrid playerGrid;
   BattleGrid enemyGrid;
 
-   //button panels
+   // Button panels
   helpPanel helpScreen;
   chatPanel connectScreen;
-
 
   // Methods
   public void actionPerformed(ActionEvent evt){
@@ -158,8 +162,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     if(shipsLocked){
       return;
     }
-    // 1st Ship 3
-    else if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+130 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+50){
+    // 1st Ship 3 
+    int intWidth1; 
+    int intHeight1; 
+    if(bln1Ship3Vertical){
+      intWidth1 = 50; 
+      intHeight1 = 130; 
+    }else{
+      intWidth1 = 130; 
+      intHeight1 = 50; 
+    }
+    if(evt.getX()>=thePanel.int1Ship3X && evt.getX()<=thePanel.int1Ship3X+intWidth1 && evt.getY()>=thePanel.int1Ship3Y && evt.getY()<=thePanel.int1Ship3Y+intHeight1){
       intDrag = 1; 
       intOffsetX = evt.getX() - thePanel.int1Ship3X;
       intOffsetY = evt.getY() - thePanel.int1Ship3Y;
@@ -167,7 +180,16 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       intOriginalY = thePanel.int1Ship3Y;
     }
     // 2nd Ship 3
-    if(evt.getX()>=thePanel.int2Ship3X && evt.getX()<=thePanel.int2Ship3X+130 && evt.getY()>=thePanel.int2Ship3Y && evt.getY()<=thePanel.int2Ship3Y+50){
+    int intWidth2; 
+    int intHeight2; 
+    if(bln2Ship3Vertical){
+      intWidth2 = 50; 
+      intHeight2 = 130; 
+    }else{
+      intWidth2 = 130; 
+      intHeight2 = 50; 
+    }
+    if(evt.getX()>=thePanel.int2Ship3X && evt.getX()<=thePanel.int2Ship3X+intWidth2 && evt.getY()>=thePanel.int2Ship3Y && evt.getY()<=thePanel.int2Ship3Y+intHeight2){
       intDrag = 2;
       intOffsetX = evt.getX() - thePanel.int2Ship3X;
       intOffsetY = evt.getY() - thePanel.int2Ship3Y;
@@ -175,7 +197,16 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       intOriginalY = thePanel.int2Ship3Y;
     }
     // Ship 2
-    if(evt.getX()>=thePanel.intShip2X && evt.getX()<=thePanel.intShip2X+100 && evt.getY()>=thePanel.intShip2Y && evt.getY()<=thePanel.intShip2Y+50){
+    int intWidth3; 
+    int intHeight3; 
+    if(blnShip2Vertical){
+      intWidth3 = 50; 
+      intHeight3 = 100; 
+    }else{
+      intWidth3 = 100; 
+      intHeight3 = 50; 
+    }
+    if(evt.getX()>=thePanel.intShip2X && evt.getX()<=thePanel.intShip2X+intWidth3 && evt.getY()>=thePanel.intShip2Y && evt.getY()<=thePanel.intShip2Y+intHeight3){
       intDrag = 3;
       intOffsetX = evt.getX() - thePanel.intShip2X;
       intOffsetY = evt.getY() - thePanel.intShip2Y;
@@ -183,7 +214,16 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       intOriginalY = thePanel.intShip2Y;
     }
     // Ship 4
-    if(evt.getX()>=thePanel.intShip4X && evt.getX()<=thePanel.intShip4X+170 && evt.getY()>=thePanel.intShip4Y && evt.getY()<=thePanel.intShip4Y+50){
+    int intWidth4; 
+    int intHeight4; 
+    if(blnShip4Vertical){
+      intWidth4 = 50; 
+      intHeight4 = 170; 
+    }else{
+      intWidth4 = 170; 
+      intHeight4 = 50; 
+    }
+    if(evt.getX()>=thePanel.intShip4X && evt.getX()<=thePanel.intShip4X+intWidth4 && evt.getY()>=thePanel.intShip4Y && evt.getY()<=thePanel.intShip4Y+intHeight4){
       intDrag = 4;
       intOffsetX = evt.getX() - thePanel.intShip4X;
       intOffsetY = evt.getY() - thePanel.intShip4Y;
@@ -192,11 +232,20 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
 
     }
     // Ship 5
-    if(evt.getX()>=thePanel.intShip5X && evt.getX()<=thePanel.intShip5X+215 && evt.getY()>=thePanel.intShip5Y && evt.getY()<=thePanel.intShip5Y+50){
+    int intWidth5; 
+    int intHeight5; 
+    if(blnShip5Vertical){
+      intWidth5 = 50; 
+      intHeight5 = 215; 
+    }else{
+      intWidth5 = 215; 
+      intHeight5 = 50; 
+    }
+    if(evt.getX()>=thePanel.intShip5X && evt.getX()<=thePanel.intShip5X+intWidth5 && evt.getY()>=thePanel.intShip5Y && evt.getY()<=thePanel.intShip5Y+intHeight5){
       intDrag = 5;
       intOffsetX = evt.getX() - thePanel.intShip5X;
       intOffsetY = evt.getY() - thePanel.intShip5Y;
-      intOriginalX = thePanel.intShip5X;
+      intOriginalX = thePanel.intShip5X;  
       intOriginalY = thePanel.intShip5Y;
     }
 
@@ -248,20 +297,27 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   }
   @Override
   public void keyPressed(KeyEvent evt) {
-    if(evt.getKeyChar()=='r'){
+    if(evt.getKeyChar()=='r' && intDrag!=0){
       double dblDeg = Math.PI/2;
-      if(intDrag==1){
-        thePanel.dbl1Ship3rot += dblDeg; 
+
+      if(intDrag==1){ 
+        thePanel.dbl1Ship3rot += dblDeg;
+        bln1Ship3Vertical = !bln1Ship3Vertical;
       }else if(intDrag==2){
         thePanel.dbl2Ship3rot += dblDeg; 
+        bln2Ship3Vertical = !bln2Ship3Vertical; 
       }else if(intDrag==3){
-        thePanel.dblShip2rot += dblDeg;
+        thePanel.dblShip2rot += dblDeg; 
+        blnShip2Vertical = !blnShip2Vertical;
       }else if(intDrag==4){
-        thePanel.dblShip4rot += dblDeg;
+        thePanel.dblShip4rot += dblDeg; 
+        blnShip4Vertical = !blnShip4Vertical;
       }else if(intDrag==5){
         thePanel.dblShip5rot += dblDeg;
+        blnShip5Vertical = !blnShip5Vertical;
       }
       thePanel.repaint();
+
     }
   }
   @Override
@@ -349,9 +405,12 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     
     theFrame.addKeyListener(this); 
 
+    theFrame.setFocusable(true);
+    theFrame.requestFocus();
     theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     theFrame.pack(); 
     theFrame.setVisible(true); 
+    
   }
 
   public void showScreen(String string) {
