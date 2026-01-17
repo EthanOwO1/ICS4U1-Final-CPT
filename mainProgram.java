@@ -257,27 +257,27 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     int gridSize = 400;
 
     if(intDrag == 1){
-      if(thePanel.int1Ship3X < gridX - 20 || thePanel.int1Ship3X > gridX + gridSize - 20 || thePanel.int1Ship3Y < gridY - 20 || thePanel.int1Ship3Y > gridY + gridSize - 20){
+      if(thePanel.int1Ship3X < gridX - 20 || thePanel.int1Ship3X > gridX + gridSize - 100 || thePanel.int1Ship3Y < gridY - 20 || thePanel.int1Ship3Y > gridY + gridSize - 20){
         thePanel.int1Ship3X = intOriginalX;
         thePanel.int1Ship3Y = intOriginalY;
       }
     }else if(intDrag == 2){
-      if(thePanel.int2Ship3X < gridX - 20 || thePanel.int2Ship3X > gridX + gridSize - 20 || thePanel.int2Ship3Y < gridY - 20 || thePanel.int2Ship3Y > gridY + gridSize - 20){
+      if(thePanel.int2Ship3X < gridX - 20 || thePanel.int2Ship3X > gridX + gridSize - 100 || thePanel.int2Ship3Y < gridY - 20 || thePanel.int2Ship3Y > gridY + gridSize - 20){
         thePanel.int2Ship3X = intOriginalX;
         thePanel.int2Ship3Y = intOriginalY;
       }
     }else if(intDrag == 3){
-      if(thePanel.intShip2X < gridX - 20 || thePanel.intShip2X > gridX + gridSize - 20 || thePanel.intShip2Y < gridY - 20 || thePanel.intShip2Y > gridY + gridSize - 20){
+      if(thePanel.intShip2X < gridX - 20 || thePanel.intShip2X > gridX + gridSize - 50 || thePanel.intShip2Y < gridY - 20 || thePanel.intShip2Y > gridY + gridSize - 20){
         thePanel.intShip2X = intOriginalX;
         thePanel.intShip2Y = intOriginalY;
       }
     }else if(intDrag == 4){
-      if(thePanel.intShip4X < gridX - 20 || thePanel.intShip4X > gridX + gridSize - 20 || thePanel.intShip4Y < gridY - 20 || thePanel.intShip4Y > gridY + gridSize - 20){
+      if(thePanel.intShip4X < gridX - 20 || thePanel.intShip4X > gridX + gridSize - 150 || thePanel.intShip4Y < gridY - 20 || thePanel.intShip4Y > gridY + gridSize - 20){
         thePanel.intShip4X = intOriginalX;
         thePanel.intShip4Y = intOriginalY;
       }
     }else if(intDrag == 5){
-      if(thePanel.intShip5X < gridX - 20 || thePanel.intShip5X > gridX + gridSize - 20 || thePanel.intShip5Y < gridY - 20 || thePanel.intShip5Y > gridY + gridSize - 20){
+      if(thePanel.intShip5X < gridX - 20 || thePanel.intShip5X > gridX + gridSize - 200 || thePanel.intShip5Y < gridY - 20 || thePanel.intShip5Y > gridY + gridSize - 20){
         thePanel.intShip5X = intOriginalX;
         thePanel.intShip5Y = intOriginalY;
       }

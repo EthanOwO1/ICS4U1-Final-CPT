@@ -47,11 +47,25 @@ private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int int
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform originalTransform = g2d.getTransform(); 
         
-        double dblCenterX = intX + image.getWidth() / 2.0; 
-        double dblCenterY = intY + image.getHeight() / 2.0; 
-        
-        g2d.rotate(dblRot, dblCenterX, dblCenterY); 
-        g2d.drawImage(image, intX, intY, null); 
+        // Determines if ship is vertical
+        boolean isVertical = Math.round(dblRot / (Math.PI / 2)) % 2 != 0;
+
+        double dblCenterX;
+        double dblCenterY;
+
+        if (isVertical) {
+            // If vertical, the hitbox is Height x Width
+            dblCenterX = intX + image.getHeight() / 2.0;
+            dblCenterY = intY + image.getWidth() / 2.0;
+        } else {
+            // If horizontal, the hitbox is Width x Height
+            dblCenterX = intX + image.getWidth() / 2.0;
+            dblCenterY = intY + image.getHeight() / 2.0;
+        }
+
+        g2d.translate(dblCenterX, dblCenterY);
+        g2d.rotate(dblRot);
+        g2d.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, null);
 
         g2d.setTransform(originalTransform); 
     }
