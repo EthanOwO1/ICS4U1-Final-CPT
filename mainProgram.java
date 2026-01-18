@@ -66,8 +66,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
 
     if(evt.getSource() == confirmButton){
-      System.out.println("Ships Confirmed");
-      shipsLocked = true;
+      if(thePanel.int1Ship3X == 150 && thePanel.int1Ship3Y == 550 || 
+         thePanel.int2Ship3X == 290 && thePanel.int2Ship3Y == 550 || 
+         thePanel.intShip2X == 430 && thePanel.intShip2Y == 550 || 
+         thePanel.intShip4X == 150 && thePanel.intShip4Y == 600 || 
+         thePanel.intShip5X == 330 && thePanel.intShip5Y == 600){
+        System.out.println("Please place all ships on the grid.");
+      }else{
+        System.out.println("Ships Confirmed");
+        shipsLocked = true;
+        confirmButton.setEnabled(false);
+      }
     }
   }
 
@@ -79,6 +88,9 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
 
   @Override
   public void mouseDragged(MouseEvent evt) {
+    if(shipsLocked){
+      return;
+    }
     thePanel.repaint(); 
 
       int gridX = 141;
@@ -401,6 +413,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     confirmButton = new JButton("Confirm Ships");
     confirmButton.setSize(150, 50);
     confirmButton.setLocation(550, 650);
+    confirmButton.addActionListener(this);
     thePanel.add(confirmButton);
     
     theFrame.addKeyListener(this); 
