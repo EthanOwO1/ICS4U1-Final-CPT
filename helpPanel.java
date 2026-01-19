@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class helpPanel extends JPanel {
 
-    JButton backButton;
+    JButton butReturn;
 
     public helpPanel() {
 
@@ -31,12 +31,12 @@ public class helpPanel extends JPanel {
         instructions.setOpaque(false);
         add(instructions);
 
-        backButton = new JButton("Back to Menu");
-        backButton.setBounds(550, 500, 180, 40);
-        add(backButton);
+        butReturn = new JButton("Back to Menu");
+        butReturn.setBounds(550, 500, 180, 40);
+        add(butReturn);
 
         // Close the help screen and go back to main menu
-        backButton.addActionListener(e -> {
+        butReturn.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.setContentPane(new JPanel()); // temporary reset
             frame.dispose();

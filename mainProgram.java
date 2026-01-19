@@ -620,7 +620,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
 
   //main menu
   public void mainMenu(){
-    JLabel theTitle = new JLabel("Battleships");
+    JLabel theTitle = new JLabel("Battleship");
     playButton = new JButton("Play");
     helpbutton = new JButton("Help");
     exitButton = new JButton("Exit");
