@@ -32,25 +32,13 @@ public class helpPanel extends JPanel {
         instructions.setOpaque(false);
         add(instructions);
 
-<<<<<<< Updated upstream
         butReturn = new JButton("Back to Menu");
-        butReturn.setBounds(550, 500, 180, 40);
+        butReturn.setBounds(550, 650, 180, 40);
         add(butReturn);
-=======
-<<<<<<< HEAD
+
         ShipPlacementDemo demo = new ShipPlacementDemo();
         demo.setBounds(350, 350, 600, 250);
         add(demo);
-
-        backButton = new JButton("Back to Menu");
-        backButton.setBounds(550, 500, 180, 40);
-        add(backButton);
-=======
-        butReturn = new JButton("Back to Menu");
-        butReturn.setBounds(550, 500, 180, 40);
-        add(butReturn);
->>>>>>> 0f428b57301fe3cb5b301c769ddf97bc5e4c270d
->>>>>>> Stashed changes
 
         // Close the help screen and go back to main menu
         butReturn.addActionListener(e -> {
@@ -113,7 +101,7 @@ class ShipPlacementDemo extends JPanel
         g2.drawImage(shipImage, shipX, shipY, null);
         g2.rotate(-rotation, shipX + shipImage.getWidth()/2, shipY + shipImage.getHeight()/2);
 
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.drawString("Drag the ship • Press R to rotate", 10, 20);
     }
 
