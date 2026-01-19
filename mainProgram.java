@@ -205,11 +205,6 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       
       if(thePanel.playerGridState[row][col] != 0) return;
       
-      // Check if it hit MY ships (we can check our own map, or just assume the opponent calculated correctly)
-      // For simplicity, let's just mark it. To be accurate, we should check collision with our own ships here.
-      // But since we are mirroring logic, let's check our own ship variables? 
-      // Actually, simpler: The opponent fired. We just need to show it.
-      // We will calculate Hit/Miss locally to show the correct color on our board.
       boolean hit = checkMyCollision(col, row);
       thePanel.playerGridState[row][col] = hit ? 1 : 2;
       
@@ -354,37 +349,37 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     int intY = evt.getY();
     
     if(battleOn && myTurn){
-        // Check if click is within Enemy Grid (625, 125) to (1025, 525)
-        if(intX >= 625 && intX <= 1025 && intY >= 125 && intY <= 525){
-            int col = (intX - 625) / 40;
-            int row = (intY - 125) / 40;
-            
-            // Check if already shot there
-            if(thePanel.enemyGridState[row][col] == 0){
-                // Valid Shot
-                boolean hit = (enemyShipMap[row][col] == 1);
-                
-                // Update Visuals
-                thePanel.enemyGridState[row][col] = hit ? 1 : 2;
-                thePanel.repaint();
-                
-                // Send to Opponent
-                if(connectScreen.ssm != null){
-                    connectScreen.ssm.sendText("SHOT," + col + "," + row);
-                }
-                
-                if(hit){
-                    enemyHits++;
-                    if(enemyHits == 17){
-                        gameOver("You Win!");
-                    }
-                }
-                
-                // End Turn
-                myTurn = false;
-                turnLabel.setText("Opponent's Turn");
-            }
-        }
+      // Check if click is within Enemy Grid (625, 125) to (1025, 525)
+      if(intX >= 625 && intX <= 1025 && intY >= 125 && intY <= 525){
+          int col = (intX - 625) / 40;
+          int row = (intY - 125) / 40;
+          
+          // Check if already shot there
+          if(thePanel.enemyGridState[row][col] == 0){
+              // Valid Shot
+              boolean hit = (enemyShipMap[row][col] == 1);
+              
+              // Update Visuals
+              thePanel.enemyGridState[row][col] = hit ? 1 : 2;
+              thePanel.repaint();
+              
+              // Send to Opponent
+              if(connectScreen.ssm != null){
+                  connectScreen.ssm.sendText("SHOT," + col + "," + row);
+              }
+              
+              if(hit){
+                  enemyHits++;
+                  if(enemyHits == 17){
+                      gameOver("You Win!");
+                  }
+              }
+              
+              // End Turn
+              myTurn = false;
+              turnLabel.setText("Opponent's Turn");
+          }
+      }
     }
   }
   @Override
@@ -551,7 +546,6 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
           }
           
           // Check if ANY part of the ship is outside the grid
-          // We add a tolerance of 10 pixels because of the visual offsets (-4, -5) used in dragging
           boolean outOfBounds = x < gridX - 10 || x + w > gridX + gridSize + 10 || y < gridY - 10 || y + h > gridY + gridSize + 10;
           boolean overlapping = checkOverlap(intDrag, x, y, w, h);
           if(outOfBounds || overlapping){
@@ -717,11 +711,6 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     theFrame.pack(); 
     theFrame.setVisible(true); 
     
-  }
-
-  public void showScreen(String string) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'showScreen'");
   }
 
   // Main Method
