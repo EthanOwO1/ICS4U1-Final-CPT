@@ -38,6 +38,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         strName = "Player2";
         butClient.setEnabled(false);
         butServer.setEnabled(false);
+        main.myTurn = false; // Client goes second
       }
 
     } else if(evt.getSource() == butServer){
@@ -46,6 +47,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       strName = "Player1";
       butClient.setEnabled(false);
       butServer.setEnabled(false);
+      main.myTurn = true; // Server goes first
 
     } else if(evt.getSource() == butConnect){
       System.out.println("Connect Button Action"); 
@@ -54,8 +56,20 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         theArea.append("Connection Successful\n");
         butConnect.setEnabled(false);
         theField.setText("");
-        if(main != null){
+        if(strName.equals("Player2")){
+          // Client sends handshake and starts game
+          // Delay sending slightly to ensure server thread is ready
+          Timer timer = new Timer(500, new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+              ssm.sendText("PAIRED SUCCESSFULLY");
+            }
+          });
+          timer.setRepeats(false);
+          timer.start();
           main.startGame();
+        }else{
+          // Server waits for client to join
+          theArea.append("Waiting for client to join...\n");
         }
       } else {
         theArea.append("Connection Failed\n");
@@ -63,8 +77,18 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     } else if(evt.getSource() == ssm){
       String strLine = ssm.readText();
-      theArea.append(strLine + "\n");
-      
+      if(strLine.equals("PAIRED SUCCESSFULLY")){
+        main.startGame();
+
+      }else if(strLine.startsWith("SHIPS")){
+        main.setEnemyShips(strLine);
+        
+      }else if(strLine.startsWith("SHOT")){
+        main.receiveShot(strLine);
+        
+      }else{
+        theArea.append(strLine + "\n");
+      }
     }
   }
 
@@ -76,6 +100,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     theScroll.setSize(200,600);
     theScroll.setLocation(1080,0);
+    theArea.setEditable(false);
 
     theField.setSize(200,100);
     theField.setLocation(1080,600);

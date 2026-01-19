@@ -14,6 +14,8 @@ public class animation extends JPanel{
     BufferedImage ship2Image; 
     BufferedImage ship4Image; 
     BufferedImage ship5Image; 
+    BufferedImage hitImage;
+    BufferedImage missImage;
     int int1Ship3X = 150; 
     int int1Ship3Y = 550; 
     int int2Ship3X = 290;
@@ -29,6 +31,10 @@ public class animation extends JPanel{
     double dblShip2rot = 0;
     double dblShip4rot = 0;
     double dblShip5rot = 0;
+    
+    // Grid States: 0 = Empty, 1 = Hit (Red), 2 = Miss (White)
+    int[][] playerGridState = new int[10][10];
+    int[][] enemyGridState = new int[10][10];
 
     // Methods
     public void paintComponent(Graphics g){ 
@@ -40,8 +46,31 @@ public class animation extends JPanel{
         drawRotatedImage(g, ship4Image, intShip4X, intShip4Y, dblShip4rot);
         drawRotatedImage(g, ship5Image, intShip5X, intShip5Y, dblShip5rot);
         
-
+        // Draw Shots on Player Grid (141, 125)
+        drawGridShots(g, playerGridState, 141, 125);
+        
+        // Draw Shots on Enemy Grid (625, 125)
+        drawGridShots(g, enemyGridState, 625, 125);
     }
+    
+    private void drawGridShots(Graphics g, int[][] gridState, int startX, int startY){
+        int cellSize = 40;
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                if(gridState[row][col] != 0){
+                    int x = startX + col * cellSize;
+                    int y = startY + row * cellSize;
+                    
+                    if(gridState[row][col] == 1){
+                        g.drawImage(hitImage, x + 2, y + 2, null); // Red for Hit
+                    }else{
+                        g.drawImage(missImage, x + 2, y + 2, null); // White for Miss
+                    }
+                }
+            }
+        }
+    }
+
 private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int intY, double dblRot){
     if(image != null){
         Graphics2D g2d = (Graphics2D) g;
@@ -80,6 +109,8 @@ private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int int
         InputStream ship2Stream = this.getClass().getResourceAsStream("graphics/ship2.png"); 
         InputStream ship4Stream = this.getClass().getResourceAsStream("graphics/ship4.png"); 
         InputStream ship5Stream = this.getClass().getResourceAsStream("graphics/ship5.png"); 
+        InputStream missStream = this.getClass().getResourceAsStream("graphics/miss.png"); 
+        InputStream hitStream = this.getClass().getResourceAsStream("graphics/explosion.png");
         try{
             battleImage = ImageIO.read(battleStream);
             oneShip3Image = ImageIO.read(oneShip3Stream);
@@ -87,6 +118,8 @@ private void drawRotatedImage(Graphics g, BufferedImage image, int intX, int int
             ship2Image = ImageIO.read(ship2Stream);
             ship4Image = ImageIO.read(ship4Stream); 
             ship5Image = ImageIO.read(ship5Stream);
+            missImage = ImageIO.read(missStream);
+            hitImage = ImageIO.read(hitStream);
         }catch(IOException e){ 
             System.out.println("Unable to load image");
         }
