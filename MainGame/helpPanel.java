@@ -34,7 +34,7 @@ public class helpPanel extends JPanel {
         add(instructionsArea);
 
         returnButton = new JButton("Back to Menu");
-        returnButton.setBounds(550, 650, 180, 40);
+        returnButton.setBounds(550, 600, 180, 40);
         add(returnButton);
 
         ShipPlacementDemo demo = new ShipPlacementDemo();
