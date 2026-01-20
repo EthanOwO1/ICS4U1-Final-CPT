@@ -9,9 +9,9 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
   JTextField theField = new JTextField(); 
   JTextArea theArea = new JTextArea();
   JScrollPane theScroll = new JScrollPane(theArea);
-  JButton butClient = new JButton("Client Mode");
-  JButton butServer = new JButton("Server mode");
-  JButton butConnect = new JButton("Connect");
+  JButton clientButton = new JButton("Client Mode");
+  JButton serverButton = new JButton("Server mode");
+  JButton connectButton = new JButton("Connect");
   JLabel ipLabel = new JLabel("Server IP:");
   JTextField ipField = new JTextField();
   SuperSocketMaster ssm = null;
@@ -33,23 +33,23 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       theArea.append(strFormatted + "\n");
       theField.setText("");
 
-    } else if(evt.getSource() == butClient){
+    } else if(evt.getSource() == clientButton){
       System.out.println("Client Button Activated");
-      butClient.setVisible(false);
-      butServer.setVisible(false);
+      clientButton.setVisible(false);
+      serverButton.setVisible(false);
       ipLabel.setVisible(true);
       ipField.setVisible(true);
       strName = "Player2";
       main.myTurn = false; // Client goes second
 
-    } else if(evt.getSource() == butServer){
+    } else if(evt.getSource() == serverButton){
       System.out.println("Server Button Action");
-      butClient.setVisible(false);
-      butServer.setVisible(false);
+      clientButton.setVisible(false);
+      serverButton.setVisible(false);
       strName = "Player1";
       main.myTurn = true; // Server goes first
 
-    } else if(evt.getSource() == butConnect){
+    } else if(evt.getSource() == connectButton){
       System.out.println("Connect Button Action"); 
       
       if (ssm == null) {
@@ -67,7 +67,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
       if(ssm.connect()){
         theArea.append("Connection Successful\n");
-        butConnect.setEnabled(false);
+        connectButton.setEnabled(false);
         ipField.setEditable(false);
         theField.setText("");
         if(strName.equals("Player2")){
@@ -123,20 +123,20 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     theField.setLocation(1080,600);
     theField.addActionListener(this);
 
-    butClient.setSize(300,100);
-    butClient.setLocation(500,200);
-    butClient.addActionListener(this);
-    add(butClient);
+    clientButton.setSize(300,100);
+    clientButton.setLocation(500,200);
+    clientButton.addActionListener(this);
+    add(clientButton);
 
-    butServer.setSize(300,100);
-    butServer.setLocation(500,300);
-    butServer.addActionListener(this);
-    add(butServer);
+    serverButton.setSize(300,100);
+    serverButton.setLocation(500,300);
+    serverButton.addActionListener(this);
+    add(serverButton);
 
-    butConnect.setSize(300,100);
-    butConnect.setLocation(500,400);
-    butConnect.addActionListener(this);
-    add(butConnect);
+    connectButton.setSize(300,100);
+    connectButton.setLocation(500,400);
+    connectButton.addActionListener(this);
+    add(connectButton);
 
     ipLabel.setBounds(400, 300, 100, 30);
     ipLabel.setVisible(false);

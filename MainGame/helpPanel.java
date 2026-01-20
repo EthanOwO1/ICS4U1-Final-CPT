@@ -6,18 +6,18 @@ import java.awt.image.BufferedImage;
 
 public class helpPanel extends JPanel {
 
-    JButton butReturn;
+    JButton returnButton;
 
     public helpPanel() {
 
         setLayout(null);
 
-        JLabel title = new JLabel("How to Play Battleship");
-        title.setFont(new Font("Arial", Font.BOLD, 32));
-        title.setBounds(450, 50, 500, 40);
-        add(title);
+        JLabel helpLabel = new JLabel("How to Play Battleship");
+        helpLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        helpLabel.setBounds(450, 50, 500, 40);
+        add(helpLabel);
 
-        JTextArea instructions = new JTextArea(
+        JTextArea instructionsArea = new JTextArea(
             "Objective:\n" +
             "- Sink all enemy ships before they sink yours.\n\n" +
             "How to Play:\n" +
@@ -27,22 +27,22 @@ public class helpPanel extends JPanel {
             "Good luck, Commander!"
         );
 
-        instructions.setFont(new Font("Arial", Font.PLAIN, 18));
-        instructions.setBounds(300, 150, 700, 300);
-        instructions.setEditable(false);
-        instructions.setOpaque(false);
-        add(instructions);
+        instructionsArea.setFont(new Font("Arial", Font.PLAIN, 18));
+        instructionsArea.setBounds(300, 150, 700, 300);
+        instructionsArea.setEditable(false);
+        instructionsArea.setOpaque(false);
+        add(instructionsArea);
 
-        butReturn = new JButton("Back to Menu");
-        butReturn.setBounds(550, 650, 180, 40);
-        add(butReturn);
+        returnButton = new JButton("Back to Menu");
+        returnButton.setBounds(550, 650, 180, 40);
+        add(returnButton);
 
         ShipPlacementDemo demo = new ShipPlacementDemo();
         demo.setBounds(350, 350, 600, 250);
         add(demo);
 
         // Close the help screen and go back to main menu
-        butReturn.addActionListener(e -> {
+        returnButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.setContentPane(new JPanel()); // temporary reset
             frame.dispose();

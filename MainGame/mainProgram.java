@@ -793,22 +793,22 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    * Initializes the Main Menu UI components.
    */
   public void mainMenu(){
-    JLabel theTitle = new JLabel("Battleship");
+    JLabel titleLabel = new JLabel("Battleship");
     playButton = new JButton("Play");
     helpbutton = new JButton("Help");
     exitButton = new JButton("Exit");
 
-    Font currentFont = theTitle.getFont();
+    Font currentFont = titleLabel.getFont();
     Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 20f);
 
-    theTitle.setFont(biggerFont);
+    titleLabel.setFont(biggerFont);
     
     theFrame.setContentPane(mainMenuPanel);
     mainMenuPanel.setLayout(null);
 
-    theTitle.setSize(200, 50);
-    theTitle.setLocation(550, 50);
-    mainMenuPanel.add(theTitle);
+    titleLabel.setSize(200, 50);
+    titleLabel.setLocation(550, 50);
+    mainMenuPanel.add(titleLabel);
 
     playButton.setSize(100, 30);
     playButton.setLocation(600, 300);
