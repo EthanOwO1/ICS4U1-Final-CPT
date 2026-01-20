@@ -3,6 +3,8 @@
 //December 18 2025
 
 import java.awt.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -24,6 +26,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   // Properties 
   JFrame theFrame = new JFrame("Battleship"); 
   JPanel mainMenuPanel = new JPanel();
+  JLabel menuLabel = new JLabel(); 
   animation thePanel = new animation();
   Timer theTimer = new Timer(1000/60, this);
 
@@ -63,6 +66,9 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    // Button panels
   helpPanel helpScreen;
   chatPanel connectScreen;
+
+  // Images
+  BufferedImage menuImage; 
 
   // Methods
   /**
@@ -793,39 +799,28 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    * Initializes the Main Menu UI components.
    */
   public void mainMenu(){
-    JLabel titleLabel = new JLabel("Battleship");
     playButton = new JButton("Play");
     helpbutton = new JButton("Help");
     exitButton = new JButton("Exit");
-
-    Font currentFont = titleLabel.getFont();
-    Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 20f);
-
-    titleLabel.setFont(biggerFont);
     
     theFrame.setContentPane(mainMenuPanel);
     mainMenuPanel.setLayout(null);
 
-    titleLabel.setSize(200, 50);
-    titleLabel.setLocation(550, 50);
-    mainMenuPanel.add(titleLabel);
-
-    playButton.setSize(100, 30);
-    playButton.setLocation(600, 300);
+    playButton.setSize(200, 60);
+    playButton.setLocation(540, 250);
     playButton.addActionListener(this);
     mainMenuPanel.add(playButton);
 
-    helpbutton.setSize(100, 30);
-    helpbutton.setLocation(600, 350);
+    helpbutton.setSize(200, 60);
+    helpbutton.setLocation(540, 330);
     helpbutton.addActionListener(this);
     mainMenuPanel.add(helpbutton);
 
     exitButton = new JButton("Exit");
-    exitButton.setSize(100, 30);
-    exitButton.setLocation(600, 400);
+    exitButton.setSize(200, 60);
+    exitButton.setLocation(540, 410);
     exitButton.addActionListener(e -> System.exit(0));
     mainMenuPanel.add(exitButton);
-
 
     theFrame.pack();
   }
@@ -878,6 +873,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     confirmButton.setLocation(650, 600);
     confirmButton.addActionListener(this);
     thePanel.add(confirmButton);
+
+    InputStream menuStream = this.getClass().getResourceAsStream("graphics/main menu.png");
+    try{
+        menuImage = ImageIO.read(menuStream);
+    }catch(IOException e){
+        System.out.println("Unable to load image");
+    }
+    menuLabel = new JLabel(new ImageIcon(menuImage));
+    menuLabel.setSize(1280,680); 
+    menuLabel.setLocation(0,0);
+    mainMenuPanel.add(menuLabel);
     
     theFrame.addKeyListener(this); 
 

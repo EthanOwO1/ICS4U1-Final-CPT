@@ -60,10 +60,10 @@ class ShipPlacementDemo extends JPanel
     boolean dragging = false;
     double rotation = 0;
 
-    final int gridX = 250;
-    final int gridY = 20;
-    final int cellSize = 40;
-    final int gridSize = 5;
+    int gridX = 250;
+    int gridY = 20;
+    int cellSize = 40;
+    int gridSize = 5;
 
     BufferedImage shipImage;
 
@@ -85,7 +85,7 @@ class ShipPlacementDemo extends JPanel
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         // Draw grid
