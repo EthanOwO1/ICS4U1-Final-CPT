@@ -409,7 +409,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     if(intDrag == 1){
       int rawX = evt.getX() - intOffsetX;
       int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
         thePanel.int1Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
         thePanel.int1Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
       }else{
@@ -419,7 +419,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }else if(intDrag == 2){
       int rawX = evt.getX() - intOffsetX;
       int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
         thePanel.int2Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
         thePanel.int2Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
       }else{
@@ -429,7 +429,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }else if(intDrag == 3){
       int rawX = evt.getX() - intOffsetX;
       int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
         thePanel.intShip2X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
         thePanel.intShip2Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
       }else{
@@ -439,7 +439,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }else if(intDrag == 4){
       int rawX = evt.getX() - intOffsetX;
       int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
         thePanel.intShip4X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
         thePanel.intShip4Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
       }else{
@@ -449,7 +449,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }else if(intDrag == 5){
       int rawX = evt.getX() - intOffsetX;
       int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 20 && rawX < gridX + gridSize - 20 && rawY > gridY - 20 && rawY < gridY + gridSize - 20){
+      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
         thePanel.intShip5X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
         thePanel.intShip5Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
       }else{
@@ -688,7 +688,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
           }
           
           // Check if ANY part of the ship is outside the grid
-          boolean outOfBounds = x < gridX - 10 || x + w > gridX + gridSize + 10 || y < gridY - 10 || y + h > gridY + gridSize + 10;
+          boolean outOfBounds = x < gridX - 30 || x + w > gridX + gridSize + 30 || y < gridY - 30 || y + h > gridY + gridSize + 30;
           boolean overlapping = checkOverlap(intDrag, x, y, w, h);
           if(outOfBounds || overlapping){
             // Reset to original position
