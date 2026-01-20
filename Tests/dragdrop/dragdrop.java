@@ -1,4 +1,4 @@
-package dragdrop;
+package Tests.dragdrop;
 
 import java.awt.*;
 import java.awt.event.*;

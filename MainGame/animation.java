@@ -35,6 +35,10 @@ public class animation extends JPanel{
     // Grid States: 0 = Empty, 1 = Hit (Red), 2 = Miss (White)
     int[][] playerGridState = new int[10][10];
     int[][] enemyGridState = new int[10][10];
+    
+    // Animation Scales (0.0 to 1.0)
+    float[][] playerGridScales = new float[10][10];
+    float[][] enemyGridScales = new float[10][10];
 
     // Methods
     public void paintComponent(Graphics g){ 
@@ -47,13 +51,29 @@ public class animation extends JPanel{
         drawRotatedImage(g, ship5Image, intShip5X, intShip5Y, dblShip5rot);
         
         // Draw Shots on Player Grid (141, 125)
-        drawGridShots(g, playerGridState, 141, 125);
+        drawGridShots(g, playerGridState, playerGridScales, 141, 125);
         
         // Draw Shots on Enemy Grid (625, 125)
-        drawGridShots(g, enemyGridState, 625, 125);
+        drawGridShots(g, enemyGridState, enemyGridScales, 625, 125);
     }
     
-    private void drawGridShots(Graphics g, int[][] gridState, int startX, int startY){
+    public void updateAnimations(){
+        for(int i=0; i<10; i++){
+            for(int j=0; j<10; j++){
+                // If there is a hit/miss, grow the scale until it reaches 1.0
+                if(playerGridState[i][j] != 0 && playerGridScales[i][j] < 1.0f){
+                    playerGridScales[i][j] += 0.1f; // Speed of animation
+                    if(playerGridScales[i][j] > 1.0f) playerGridScales[i][j] = 1.0f;
+                }
+                if(enemyGridState[i][j] != 0 && enemyGridScales[i][j] < 1.0f){
+                    enemyGridScales[i][j] += 0.1f; // Speed of animation
+                    if(enemyGridScales[i][j] > 1.0f) enemyGridScales[i][j] = 1.0f;
+                }
+            }
+        }
+    }
+    
+    private void drawGridShots(Graphics g, int[][] gridState, float[][] gridScales, int startX, int startY){
         int cellSize = 40;
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
@@ -61,10 +81,15 @@ public class animation extends JPanel{
                     int x = startX + col * cellSize;
                     int y = startY + row * cellSize;
                     
+                    // Calculate animated size
+                    float scale = gridScales[row][col];
+                    int size = (int)(36 * scale); // Max size 36px
+                    int offset = (40 - size) / 2; // Center the image
+                    
                     if(gridState[row][col] == 1){
-                        g.drawImage(hitImage, x + 2, y + 2, null); // Red for Hit
+                        g.drawImage(hitImage, x + offset, y + offset, size, size, null); // Red for Hit
                     }else{
-                        g.drawImage(missImage, x + 2, y + 2, null); // White for Miss
+                        g.drawImage(missImage, x + offset, y + offset, size, size, null); // White for Miss
                     }
                 }
             }

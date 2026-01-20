@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -60,7 +61,7 @@ class ShipPlacementDemo extends JPanel
     double rotation = 0;
 
     final int gridX = 250;
-    final int gridY = 60;
+    final int gridY = 20;
     final int cellSize = 40;
     final int gridSize = 5;
 
@@ -109,8 +110,14 @@ class ShipPlacementDemo extends JPanel
     public void mousePressed(MouseEvent e) {
         requestFocusInWindow();
 
-        if (e.getX() >= shipX && e.getX() <= shipX + shipImage.getWidth()
-         && e.getY() >= shipY && e.getY() <= shipY + shipImage.getHeight()) {
+        boolean isVertical = Math.round(rotation / (Math.PI / 2)) % 2 != 0;
+        int adjX = isVertical ? 40 : 0;
+        int adjY = isVertical ? -40 : 0;
+        int vW = isVertical ? 40 : 120;
+        int vH = isVertical ? 120 : 40;
+
+        if (e.getX() >= shipX + adjX && e.getX() <= shipX + adjX + vW
+         && e.getY() >= shipY + adjY && e.getY() <= shipY + adjY + vH) {
 
             dragging = true;
             offsetX = e.getX() - shipX;
@@ -125,12 +132,21 @@ class ShipPlacementDemo extends JPanel
         int rawX = e.getX() - offsetX;
         int rawY = e.getY() - offsetY;
 
-        // Snap to grid
-        if (rawX > gridX && rawX < gridX + gridSize * cellSize &&
-            rawY > gridY && rawY < gridY + gridSize * cellSize) {
+        boolean isVertical = Math.round(rotation / (Math.PI / 2)) % 2 != 0;
+        int adjX = isVertical ? 40 : 0;
+        int adjY = isVertical ? -40 : 0;
+        int vW = isVertical ? 40 : 120;
+        int vH = isVertical ? 120 : 40;
 
-            shipX = gridX + Math.round((rawX - gridX) / (float)cellSize) * cellSize;
-            shipY = gridY + Math.round((rawY - gridY) / (float)cellSize) * cellSize;
+        int currentVisualX = rawX + adjX;
+        int currentVisualY = rawY + adjY;
+
+        // Snap to grid
+        if (currentVisualX >= gridX - 10 && currentVisualX + vW <= gridX + gridSize * cellSize + 10 &&
+            currentVisualY >= gridY - 10 && currentVisualY + vH <= gridY + gridSize * cellSize + 10) {
+
+            shipX = gridX + Math.round((currentVisualX - gridX) / (float)cellSize) * cellSize - adjX;
+            shipY = gridY + Math.round((currentVisualY - gridY) / (float)cellSize) * cellSize - adjY;
         } else {
             shipX = rawX;
             shipY = rawY;

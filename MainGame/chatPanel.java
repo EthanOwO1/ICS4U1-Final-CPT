@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 public class chatPanel extends JPanel implements ActionListener, MouseListener{
@@ -11,6 +12,8 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
   JButton butClient = new JButton("Client Mode");
   JButton butServer = new JButton("Server mode");
   JButton butConnect = new JButton("Connect");
+  JLabel ipLabel = new JLabel("Server IP:");
+  JTextField ipField = new JTextField();
   SuperSocketMaster ssm = null;
   String strName = "Player1";
   PrintWriter chatlog;
@@ -32,33 +35,43 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     } else if(evt.getSource() == butClient){
       System.out.println("Client Button Activated");
-      String strIP = JOptionPane.showInputDialog(this, "Enter Server IP Address:");
-      if(strIP != null){
-        ssm = new SuperSocketMaster(strIP, 6112, this);
-        strName = "Player2";
-        butClient.setEnabled(false);
-        butServer.setEnabled(false);
-        main.myTurn = false; // Client goes second
-      }
+      butClient.setVisible(false);
+      butServer.setVisible(false);
+      ipLabel.setVisible(true);
+      ipField.setVisible(true);
+      strName = "Player2";
+      main.myTurn = false; // Client goes second
 
     } else if(evt.getSource() == butServer){
       System.out.println("Server Button Action");
-      ssm = new SuperSocketMaster(6112, this);
+      butClient.setVisible(false);
+      butServer.setVisible(false);
       strName = "Player1";
-      butClient.setEnabled(false);
-      butServer.setEnabled(false);
       main.myTurn = true; // Server goes first
 
     } else if(evt.getSource() == butConnect){
       System.out.println("Connect Button Action"); 
       
+      if (ssm == null) {
+        if (strName.equals("Player1")) { // Server
+            ssm = new SuperSocketMaster(6112, this);
+        } else { // Client
+            String strIP = ipField.getText();
+            if (strIP == null || strIP.trim().isEmpty()) {
+                theArea.append("Please enter a Server IP Address.\n");
+                return;
+            }
+            ssm = new SuperSocketMaster(strIP, 6112, this);
+        }
+      }
+
       if(ssm.connect()){
         theArea.append("Connection Successful\n");
         butConnect.setEnabled(false);
+        ipField.setEditable(false);
         theField.setText("");
         if(strName.equals("Player2")){
           // Client sends handshake and starts game
-          // Delay sending slightly to ensure server thread is ready
           Timer timer = new Timer(500, new ActionListener(){
             public void actionPerformed(ActionEvent evt){
               ssm.sendText("PAIRED SUCCESSFULLY");
@@ -67,17 +80,19 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
           timer.setRepeats(false);
           timer.start();
           main.startGame();
-        }else{
+        } else {
           // Server waits for client to join
           theArea.append("Waiting for client to join...\n");
         }
       } else {
         theArea.append("Connection Failed\n");
+        ssm = null; // Allow user to try again
       }
 
     } else if(evt.getSource() == ssm){
       String strLine = ssm.readText();
-      if(strLine.equals("PAIRED SUCCESSFULLY")){
+      if(strLine.startsWith("PAIRED SUCCESSFULLY")){
+        theArea.append("Client connected. Starting game...\n");
         main.startGame();
 
       }else if(strLine.startsWith("SHIPS")){
@@ -101,6 +116,8 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     theScroll.setSize(200,600);
     theScroll.setLocation(1080,0);
     theArea.setEditable(false);
+    theArea.setLineWrap(true);
+    theArea.setWrapStyleWord(true);
 
     theField.setSize(200,100);
     theField.setLocation(1080,600);
@@ -120,6 +137,14 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     butConnect.setLocation(500,400);
     butConnect.addActionListener(this);
     add(butConnect);
+
+    ipLabel.setBounds(400, 300, 100, 30);
+    ipLabel.setVisible(false);
+    add(ipLabel);
+
+    ipField.setBounds(500, 300, 300, 30);
+    ipField.setVisible(false);
+    add(ipField);
 
     addMouseListener(this);
 
