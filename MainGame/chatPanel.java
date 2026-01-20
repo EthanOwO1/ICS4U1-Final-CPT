@@ -82,10 +82,10 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
           main.startGame();
         } else {
           // Server waits for client to join
-          theArea.append("Waiting for client to join...\n");
+          theArea.append("SYSTEM: Waiting for client to join...\n");
         }
       } else {
-        theArea.append("Connection Failed\n");
+        theArea.append("SYSTEM: Connection Failed\n");
         ssm = null; // Allow user to try again
       }
 
