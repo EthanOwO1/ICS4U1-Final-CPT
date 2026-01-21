@@ -4,36 +4,64 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
+/**
+ * Handles connection setup and in-game chat<p>
+ * Allows server/client selection and connection<p>
+ * Displays chat and network status
+ * @author Ethan, Carsten, Brandon
+ * @version 1.0
+ */
 public class chatPanel extends JPanel implements ActionListener, MouseListener{
   // Properties
+  /** Chat input field */
   JTextField theField = new JTextField(); 
+  /** Chat log display */
   JTextArea theArea = new JTextArea();
+  /** Scroll pane for chat */
   JScrollPane theScroll = new JScrollPane(theArea);
+  /** Client mode button */
   JButton clientButton = new JButton("Client Mode");
+  /** Server mode button */
   JButton serverButton = new JButton("Server mode");
+  /** Connect button */
   JButton connectButton = new JButton("Connect");
+  /** IP address label */
   JLabel ipLabel = new JLabel("Server IP:");
+  /** IP address input */
   JTextField ipField = new JTextField();
+  /** Network handler */
   SuperSocketMaster ssm = null;
+  /** Player name */
   String strName = "Player1";
+  /** Chat log writer */
   PrintWriter chatlog;
+  /** Main program reference */
   mainProgram main;
 
-  
-
   // Methods
-
+  /**
+   * Handles UI and network events<p>
+   * Sends chat, sets mode, processes messages
+   * @param evt ActionEvent
+   */
   public void actionPerformed(ActionEvent evt){
     if(evt.getSource() == theField){
-      // The format of the chat should follow the following: "PlayerName, XCoordinate, YCoordinate, Action" - Game Messages
-      // The format of the chat should follow the following: "PlayerName: Message" - Regular Messages
+      // User pressed Enter in the chat field
+      // System Messages - "SYSTEM: Message"
+      // Launching Missiles - "SYSTEM: PlayerName, Coordinate, Hit/Miss"
+      // Regular Messages - "PlayerName: Message" 
       System.out.println("Text Field Action");
       String strFormatted = strName + ": " + theField.getText();
       ssm.sendText(strFormatted);
       theArea.append(strFormatted + "\n");
       theField.setText("");
+      if(chatlog != null){
+        chatlog.println(strFormatted);
+        chatlog.flush();
+      }
 
     } else if(evt.getSource() == clientButton){
+      // Switch UI to Client mode (show IP field)
       System.out.println("Client Button Activated");
       clientButton.setVisible(false);
       serverButton.setVisible(false);
@@ -43,6 +71,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       main.myTurn = false; // Client goes second
 
     } else if(evt.getSource() == serverButton){
+      // Switch UI to Server mode
       System.out.println("Server Button Action");
       clientButton.setVisible(false);
       serverButton.setVisible(false);
@@ -50,6 +79,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       main.myTurn = true; // Server goes first
 
     } else if(evt.getSource() == connectButton){
+      // Attempt to establish network connection
       System.out.println("Connect Button Action"); 
       
       if (ssm == null) {
@@ -90,6 +120,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       }
 
     } else if(evt.getSource() == ssm){
+      // Handle incoming network messages
       String strLine = ssm.readText();
       if(strLine.startsWith("PAIRED SUCCESSFULLY")){
         theArea.append("Client connected. Starting game...\n");
@@ -103,15 +134,55 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         
       }else{
         theArea.append(strLine + "\n");
+        if(chatlog != null){
+            chatlog.println(strLine);
+            chatlog.flush();
+        }
       }
     }
   }
 
+  /**
+   * Handles mouse clicks<p>
+   * Sends coordinates over network
+   * @param e MouseEvent
+   */
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    int intMouseX = e.getX();
+    int intMouseY = e.getY();
+    String strFormatted = strName + ", " + intMouseX + ", " + intMouseY + ", Click";
+    ssm.sendText(strFormatted);
+    theArea.append(strFormatted + "\n");
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+  }
+
   // Constructors
+  /**
+   * Constructor for chat panel
+   * @param main Main program reference
+   */
   public chatPanel(mainProgram main){
     this.main = main;
     setPreferredSize(new Dimension(1280,720));
     setLayout(null);
+
+    // Chat Panel UI setup
 
     theScroll.setSize(200,600);
     theScroll.setLocation(1080,0);
@@ -123,6 +194,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     theField.setLocation(1080,600);
     theField.addActionListener(this);
 
+    // Connect UI setup
     clientButton.setSize(300,100);
     clientButton.setLocation(500,200);
     clientButton.addActionListener(this);
@@ -156,34 +228,12 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
   }
 
-  // Main Method
+  /**
+   * Main method for testing
+   * @param args Command line arguments
+   */
   public static void main(String[] args){
     new chatPanel(null);
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    int intMouseX = e.getX();
-    int intMouseY = e.getY();
-    String strFormatted = strName + ", " + intMouseX + ", " + intMouseY + ", Click";
-    ssm.sendText(strFormatted);
-    theArea.append(strFormatted + "\n");
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
   }
 }
 

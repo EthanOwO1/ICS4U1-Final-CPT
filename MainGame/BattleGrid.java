@@ -2,70 +2,72 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * Visual grid on game board<p>
+ * Draws 10x10 grid lines<p>
+ * Purely visual, no logic
+ * @author Ethan, Carsten, Brandon
+ * @version 1.0
+ */
 public class BattleGrid extends JPanel {
     // Properties
     
+    /** Cell size */
     int cellSize;
-    int rows = 10;
-    int cols = 10;
+    /** Row count */
+    int intRows = 10;
+    /** Column count */
+    int intCols = 10;
 
+    /**
+     * Constructs BattleGrid panel
+     * @param x Top-left X
+     * @param y Top-left Y
+     * @param cellSize Cell size in pixels
+     */
     public BattleGrid(int x, int y, int cellSize) {
         this.cellSize = cellSize;
-        this.setBounds(x, y, cols * cellSize + 1, rows * cellSize + 1);
+        this.setBounds(x, y, intCols * cellSize + 1, intRows * cellSize + 1);
         this.setOpaque(false);
     }
 
+    /**
+     * Draws grid lines
+     * @param g Graphics object
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        // Loop through rows and columns to draw grid cells
+        for (int i = 0; i < intRows; i++) {
+            for (int j = 0; j < intCols; j++) {
                 g.drawRect(j * cellSize, i * cellSize, cellSize, cellSize);
             }
         }
     }
 
-    // Inner class for the PopUp Window
-    public static class PopUpWindow extends JFrame {
-        public PopUpWindow() {
-            super("Pop Out Panel");
-            this.setSize(400, 300);
-            this.setLayout(null);
-            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            this.setVisible(true);
-        }
-    }
-
-    // Main method to run this grid "all on its own"
+    /**
+     * Main method for testing
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-        JFrame frame = new JFrame("BattleGrid Test");
+        JFrame theFrame = new JFrame("BattleGrid Test");
         JPanel thePanel = new JPanel();
-        JLabel horizontalCoordinate = new JLabel("A    B    C    D    E    F    G    H");
-        horizontalCoordinate.setFont(new Font("SansSerif", Font.BOLD, 25));
-
-        thePanel.setPreferredSize(new Dimension(1280, 720));
-        frame.setContentPane(thePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         thePanel.setLayout(null);
-        
-        horizontalCoordinate.setSize(800, 60);
-        horizontalCoordinate.setLocation(70, 100);
+        thePanel.setPreferredSize(new Dimension(1280, 720));
+        theFrame.setContentPane(thePanel);
+        theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        thePanel.add(horizontalCoordinate);
+        // Create two grids and add it to the screen.
+        BattleGrid grid1 = new BattleGrid(50, 150, 50);
+        thePanel.add(grid1);
 
-        // Create a sample grid and add it to the frame
-        BattleGrid testGrid1 = new BattleGrid(50, 150, 50);
-        thePanel.add(testGrid1);
-
-        BattleGrid testGrid2 = new BattleGrid(550, 150, 50);
-        thePanel.add(testGrid2);
-
-        frame.pack();
-        frame.setResizable(false);
-        frame.setVisible(true);
-
-        new PopUpWindow();
+        BattleGrid grid2 = new BattleGrid(550, 150, 50);
+        thePanel.add(grid2);
+        theFrame.pack();
+        theFrame.setResizable(false);
+        theFrame.setVisible(true);
     }
 }
