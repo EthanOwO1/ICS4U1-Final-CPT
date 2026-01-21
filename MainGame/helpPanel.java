@@ -24,7 +24,7 @@ public class helpPanel extends JPanel implements ActionListener {
 
     // Constructor
     public helpPanel(mainProgram main) {
-
+        this.main = main;
         setLayout(null);
 
         // Title Label
@@ -45,18 +45,18 @@ public class helpPanel extends JPanel implements ActionListener {
         );
 
         instructionsArea.setFont(new Font("Arial", Font.PLAIN, 18));
-        instructionsArea.setBounds(300, 150, 700, 300);
+        instructionsArea.setBounds(300, 150, 400, 200);
         instructionsArea.setEditable(false);
         instructionsArea.setOpaque(false);
         add(instructionsArea);
 
         returnButton = new JButton("Back to Menu");
-        returnButton.setBounds(550, 600, 180, 40);
+        returnButton.setBounds(500, 600, 180, 40);
         add(returnButton);
 
         // Add the interactive ship demo component
         ShipPlacementDemo demo = new ShipPlacementDemo();
-        demo.setBounds(350, 350, 600, 250);
+        demo.setBounds(550, 350, 600, 250);
         add(demo);
 
         // Close the help screen and go back to main menu
