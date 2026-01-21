@@ -32,7 +32,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   animation thePanel = new animation();
   /** The game loop timer running at around 60 FPS */
   // 17 ms because 1000 ms in a second / 60 fps
-  Timer theTimer = new Timer(1000/17, this);
+  Timer theTimer = new Timer(17, this);
 
   /** The menu bar for the application */
   JMenuBar theMenuBar = new JMenuBar();
