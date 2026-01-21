@@ -30,8 +30,9 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   JLabel menuLabel = new JLabel(); 
   /** The custom panel handling game animations and logic */
   animation thePanel = new animation();
-  /** The game loop timer running at 60 FPS */
-  Timer theTimer = new Timer(1000/60, this);
+  /** The game loop timer running at around 60 FPS */
+  // 17 ms because 1000 ms in a second / 60 fps
+  Timer theTimer = new Timer(1000/17, this);
 
   /** The menu bar for the application */
   JMenuBar theMenuBar = new JMenuBar();

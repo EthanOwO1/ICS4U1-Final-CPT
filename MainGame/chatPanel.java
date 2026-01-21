@@ -33,8 +33,6 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
   SuperSocketMaster ssm = null;
   /** Player name */
   String strName = "Player1";
-  /** Chat log writer */
-  PrintWriter chatlog;
   /** Main program reference */
   mainProgram main;
 
@@ -50,19 +48,15 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       // System Messages - "SYSTEM: Message"
       // Launching Missiles - "SYSTEM: PlayerName, Coordinate, Hit/Miss"
       // Regular Messages - "PlayerName: Message" 
-      System.out.println("Text Field Action");
+      System.out.println("SYSTEM: Text Field Action");
       String strFormatted = strName + ": " + theField.getText();
       ssm.sendText(strFormatted);
       theArea.append(strFormatted + "\n");
       theField.setText("");
-      if(chatlog != null){
-        chatlog.println(strFormatted);
-        chatlog.flush();
-      }
 
     } else if(evt.getSource() == clientButton){
       // Switch UI to Client mode (show IP field)
-      System.out.println("Client Button Activated");
+      System.out.println("SYSTEM: Client Button Activated");
       clientButton.setVisible(false);
       serverButton.setVisible(false);
       ipLabel.setVisible(true);
@@ -72,7 +66,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     } else if(evt.getSource() == serverButton){
       // Switch UI to Server mode
-      System.out.println("Server Button Action");
+      System.out.println("SYSTEM: Server Button Action");
       clientButton.setVisible(false);
       serverButton.setVisible(false);
       strName = "Player1";
@@ -80,7 +74,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
 
     } else if(evt.getSource() == connectButton){
       // Attempt to establish network connection
-      System.out.println("Connect Button Action"); 
+      System.out.println("SYSTEM: Connect Button Action"); 
       
       if (ssm == null) {
         if (strName.equals("Player1")) { // Server
@@ -88,7 +82,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         } else { // Client
             String strIP = ipField.getText();
             if (strIP == null || strIP.trim().isEmpty()) {
-                theArea.append("Please enter a Server IP Address.\n");
+                theArea.append("SYSTEM: Please enter a Server IP Address.\n");
                 return;
             }
             ssm = new SuperSocketMaster(strIP, 6112, this);
@@ -96,7 +90,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       }
 
       if(ssm.connect()){
-        theArea.append("Connection Successful\n");
+        theArea.append("SYSTEM: Connection Successful\n");
         connectButton.setEnabled(false);
         ipField.setEditable(false);
         theField.setText("");
@@ -104,7 +98,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
           // Client sends handshake and starts game
           Timer timer = new Timer(500, new ActionListener(){
             public void actionPerformed(ActionEvent evt){
-              ssm.sendText("PAIRED SUCCESSFULLY");
+              ssm.sendText("SYSTEM: PAIRED SUCCESSFULLY");
             }
           });
           timer.setRepeats(false);
@@ -122,8 +116,8 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     } else if(evt.getSource() == ssm){
       // Handle incoming network messages
       String strLine = ssm.readText();
-      if(strLine.startsWith("PAIRED SUCCESSFULLY")){
-        theArea.append("Client connected. Starting game...\n");
+      if(strLine.startsWith("SYSTEM: PAIRED SUCCESSFULLY")){
+        theArea.append("SYSTEM: Client connected. Starting game...\n");
         main.startGame();
 
       }else if(strLine.startsWith("SHIPS")){
@@ -134,10 +128,6 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
         
       }else{
         theArea.append(strLine + "\n");
-        if(chatlog != null){
-            chatlog.println(strLine);
-            chatlog.flush();
-        }
       }
     }
   }
@@ -219,12 +209,6 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
     add(ipField);
 
     addMouseListener(this);
-
-    try {
-      chatlog = new PrintWriter(new FileWriter("chatlog.txt"));
-    } catch (IOException e) {
-      
-    }
 
   }
 
