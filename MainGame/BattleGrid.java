@@ -40,9 +40,9 @@ public class BattleGrid extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
         // Loop through rows and columns to draw grid cells
-        for (int i = 0; i < intRows; i++) {
-            for (int j = 0; j < intCols; j++) {
-                g.drawRect(j * cellSize, i * cellSize, cellSize, cellSize);
+        for (int intI = 0; intI < intRows; intI++) {
+            for (int intJ = 0; intJ < intCols; intJ++) {
+                g.drawRect(intJ * cellSize, intI * cellSize, cellSize, cellSize);
             }
         }
     }

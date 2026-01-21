@@ -68,7 +68,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       ipLabel.setVisible(true);
       ipField.setVisible(true);
       strName = "Player2";
-      main.myTurn = false; // Client goes second
+      main.blnTurn = false; // Client goes second
 
     } else if(evt.getSource() == serverButton){
       // Switch UI to Server mode
@@ -76,7 +76,7 @@ public class chatPanel extends JPanel implements ActionListener, MouseListener{
       clientButton.setVisible(false);
       serverButton.setVisible(false);
       strName = "Player1";
-      main.myTurn = true; // Server goes first
+      main.blnTurn = true; // Server goes first
 
     } else if(evt.getSource() == connectButton){
       // Attempt to establish network connection

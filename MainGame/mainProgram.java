@@ -81,13 +81,13 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
   boolean enemyShipsReceived = false;
   
   /** Flag indicating if the battle phase has started */
-  boolean battleOn = false;
+  boolean blnBattleOn = false;
   /** Counter for hits on the player */
   int playerHits = 0;
   /** Counter for hits on the enemy */
   int enemyHits = 0;
   /** Flag indicating if it is the player's turn */
-  boolean myTurn = false;
+  boolean blnTurn = false;
   /** Label displaying whose turn it is */
   JLabel turnLabel = new JLabel("Waiting...");
 
@@ -227,10 +227,10 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    */
   public void checkBattleStart(){
     if(shipsLocked && enemyShipsReceived){
-      battleOn = true;
+      blnBattleOn = true;
       System.out.println("SYSTEM: Both players ready. Battle Start!");
       connectScreen.theArea.append("SYSTEM: Battle Started! Good luck.\n");
-      if(myTurn){
+      if(blnTurn){
           turnLabel.setText("Your Turn");
       }else{
           turnLabel.setText("Opponent's Turn");
@@ -294,21 +294,21 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
             }
 
             // Convert this ship's pixel data into a list of occupied grid cells
-            int startCol = (int)Math.round((x + offset - 141) / 40.0);
-            int startRow = (int)Math.round((y + offset - 125) / 40.0);
-            boolean isVertical = Math.round(rot / (Math.PI / 2)) % 2 != 0;
+            int intStartCol = (int)Math.round((x + offset - 141) / 40.0);
+            int intStartRow = (int)Math.round((y + offset - 125) / 40.0);
+            boolean blnVertical = Math.round(rot / (Math.PI / 2)) % 2 != 0;
 
             // Check every cell occupied by this ship
             for (int i = 0; i < length; i++) {
-                int occupiedCol = startCol;
-                int occupiedRow = startRow;
-                if (isVertical) {
-                    occupiedRow += i;
+                int intOccupiedCol = intStartCol;
+                int intOccupiedRow = intStartRow;
+                if (blnVertical) {
+                    intOccupiedRow += i;
                 } else {
-                    occupiedCol += i;
+                    intOccupiedCol += i;
                 }
 
-                if (occupiedCol == targetCol && occupiedRow == targetRow) {
+                if (intOccupiedCol == targetCol && intOccupiedRow == targetRow) {
                     return true; // It's a hit!
                 }
             }
@@ -352,8 +352,8 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
       }
       
       thePanel.repaint();
-      myTurn = true;
-      if(battleOn) {
+      blnTurn = true;
+      if(blnBattleOn) {
         turnLabel.setText("Your Turn");
       }
   }
@@ -426,13 +426,13 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    */
   public boolean isOverlapping(int x1, int y1, int w1, int h1, int x2, int y2, double rot2, BufferedImage img2) {
       if (img2 == null) return false;
-      boolean isVertical = Math.round(rot2 / (Math.PI / 2)) % 2 != 0;
-      int w2 = isVertical ? img2.getHeight() : img2.getWidth();
-      int h2 = isVertical ? img2.getWidth() : img2.getHeight();
+      boolean blnVertical = Math.round(rot2 / (Math.PI / 2)) % 2 != 0;
+      int intW2 = blnVertical ? img2.getHeight() : img2.getWidth();
+      int intH2 = blnVertical ? img2.getWidth() : img2.getHeight();
       
       // Standard rectangle intersection with a margin to allow placing ships next to each other
       int margin = 10;
-      return x1 + margin < x2 + w2 - margin && x1 + w1 - margin > x2 + margin && y1 + margin < y2 + h2 - margin && y1 + h1 - margin > y2 + margin;
+      return x1 + margin < x2 + intW2 - margin && x1 + w1 - margin > x2 + margin && y1 + margin < y2 + intH2 - margin && y1 + h1 - margin > y2 + margin;
   }
 
   /**
@@ -447,65 +447,65 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
     thePanel.repaint(); 
 
-    int gridX = 141;
-    int gridY = 125;
+    int intGridX = 141;
+    int intGridY = 125;
     int cellSize = 40;
     int gridSize = 400;
 
     // Logic for dragging Ship 1 (3-cell)
     if(intDrag == 1){
-      int rawX = evt.getX() - intOffsetX;
-      int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
-        thePanel.int1Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
-        thePanel.int1Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
+      int intRawX = evt.getX() - intOffsetX;
+      int intRawY = evt.getY() - intOffsetY;
+      if(intRawX > intGridX - 50 && intRawX < intGridX + gridSize + 50 && intRawY > intGridY - 50 && intRawY < intGridY + gridSize + 50){
+        thePanel.int1Ship3X = intGridX + (int)(Math.round((double)(intRawX - intGridX) / cellSize) * cellSize) - 4;
+        thePanel.int1Ship3Y = intGridY + (int)(Math.round((double)(intRawY - intGridY) / cellSize) * cellSize) - 4;
       }else{
-        thePanel.int1Ship3X = rawX;
-        thePanel.int1Ship3Y = rawY;
+        thePanel.int1Ship3X = intRawX;
+        thePanel.int1Ship3Y = intRawY;
       }
     // Logic for dragging Ship 2 (3-cell)
     }else if(intDrag == 2){
-      int rawX = evt.getX() - intOffsetX;
-      int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
-        thePanel.int2Ship3X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 4;
-        thePanel.int2Ship3Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 4;
+      int intRawX = evt.getX() - intOffsetX;
+      int intRawY = evt.getY() - intOffsetY;
+      if(intRawX > intGridX - 50 && intRawX < intGridX + gridSize + 50 && intRawY > intGridY - 50 && intRawY < intGridY + gridSize + 50){
+        thePanel.int2Ship3X = intGridX + (int)(Math.round((double)(intRawX - intGridX) / cellSize) * cellSize) - 4;
+        thePanel.int2Ship3Y = intGridY + (int)(Math.round((double)(intRawY - intGridY) / cellSize) * cellSize) - 4;
       }else{
-        thePanel.int2Ship3X = rawX;
-        thePanel.int2Ship3Y = rawY;
+        thePanel.int2Ship3X = intRawX;
+        thePanel.int2Ship3Y = intRawY;
       }
     // Logic for dragging Ship 3 (2-cell)
     }else if(intDrag == 3){
-      int rawX = evt.getX() - intOffsetX;
-      int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
-        thePanel.intShip2X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
-        thePanel.intShip2Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
+      int intRawX = evt.getX() - intOffsetX;
+      int intRawY = evt.getY() - intOffsetY;
+      if(intRawX > intGridX - 50 && intRawX < intGridX + gridSize + 50 && intRawY > intGridY - 50 && intRawY < intGridY + gridSize + 50){
+        thePanel.intShip2X = intGridX + (int)(Math.round((double)(intRawX - intGridX) / cellSize) * cellSize) - 5;
+        thePanel.intShip2Y = intGridY + (int)(Math.round((double)(intRawY - intGridY) / cellSize) * cellSize) - 5;
       }else{
-        thePanel.intShip2X = rawX;
-        thePanel.intShip2Y = rawY;
+        thePanel.intShip2X = intRawX;
+        thePanel.intShip2Y = intRawY;
       }
     // Logic for dragging Ship 4 (4-cell)
     }else if(intDrag == 4){
-      int rawX = evt.getX() - intOffsetX;
-      int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
-        thePanel.intShip4X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
-        thePanel.intShip4Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
+      int intRawX = evt.getX() - intOffsetX;
+      int intRawY = evt.getY() - intOffsetY;
+      if(intRawX > intGridX - 50 && intRawX < intGridX + gridSize + 50 && intRawY > intGridY - 50 && intRawY < intGridY + gridSize + 50){
+        thePanel.intShip4X = intGridX + (int)(Math.round((double)(intRawX - intGridX) / cellSize) * cellSize) - 5;
+        thePanel.intShip4Y = intGridY + (int)(Math.round((double)(intRawY - intGridY) / cellSize) * cellSize) - 5;
       }else{
-        thePanel.intShip4X = rawX;
-        thePanel.intShip4Y = rawY;
+        thePanel.intShip4X = intRawX;
+        thePanel.intShip4Y = intRawY;
       }
     // Logic for dragging Ship 5 (5-cell)
     }else if(intDrag == 5){
-      int rawX = evt.getX() - intOffsetX;
-      int rawY = evt.getY() - intOffsetY;
-      if(rawX > gridX - 50 && rawX < gridX + gridSize + 50 && rawY > gridY - 50 && rawY < gridY + gridSize + 50){
-        thePanel.intShip5X = gridX + (int)(Math.round((double)(rawX - gridX) / cellSize) * cellSize) - 5;
-        thePanel.intShip5Y = gridY + (int)(Math.round((double)(rawY - gridY) / cellSize) * cellSize) - 5;
+      int intRawX = evt.getX() - intOffsetX;
+      int intRawY = evt.getY() - intOffsetY;
+      if(intRawX > intGridX - 50 && intRawX < intGridX + gridSize + 50 && intRawY > intGridY - 50 && intRawY < intGridY + gridSize + 50){
+        thePanel.intShip5X = intGridX + (int)(Math.round((double)(intRawX - intGridX) / cellSize) * cellSize) - 5;
+        thePanel.intShip5Y = intGridY + (int)(Math.round((double)(intRawY - intGridY) / cellSize) * cellSize) - 5;
       }else{
-        thePanel.intShip5X = rawX;
-        thePanel.intShip5Y = rawY;
+        thePanel.intShip5X = intRawX;
+        thePanel.intShip5Y = intRawY;
       }
     }
   }
@@ -523,29 +523,29 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     int intX = evt.getX();
     int intY = evt.getY();
     
-    if(battleOn && myTurn){
+    if(blnBattleOn && blnTurn){
       // Check if click is within Enemy Grid (625, 125) to (1025, 525)
       if(intX >= 625 && intX <= 1025 && intY >= 125 && intY <= 525){
-          int col = (intX - 625) / 40;
-          int row = (intY - 125) / 40;
+          int intCol = (intX - 625) / 40;
+          int intRow = (intY - 125) / 40;
           
           // Check if already shot there
-          if(thePanel.enemyGridState[row][col] == 0){
+          if(thePanel.enemyGridState[intRow][intCol] == 0){
               // Valid Shot
-              boolean blnHit = checkHitFromFile(connectScreen.strName + "_enemy_ships.txt", col, row);
+              boolean blnHit = checkHitFromFile(connectScreen.strName + "_enemy_ships.txt", intCol, intRow);
               
               // Update Visuals
-              thePanel.enemyGridState[row][col] = blnHit ? 1 : 2;
+              thePanel.enemyGridState[intRow][intCol] = blnHit ? 1 : 2;
               thePanel.repaint();
-              
-              String coord = (char)('A' + row) + "" + (col + 1);
+
+              String coord = (char)('A' + intRow) + "" + (intCol + 1);
               String result = blnHit ? "hit" : "miss";
               connectScreen.theArea.append("System: " + connectScreen.strName + ", " + coord + ", " + result + "\n");
               connectScreen.theArea.setCaretPosition(connectScreen.theArea.getDocument().getLength());
 
               // Send to Opponent
               if(connectScreen.ssm != null){
-                  connectScreen.ssm.sendText("SHOT," + col + "," + row);
+                  connectScreen.ssm.sendText("SHOT," + intCol + "," + intRow);
               }
 
               if(blnHit){
@@ -556,7 +556,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
               }
               
               // End Turn
-              myTurn = false;
+              blnTurn = false;
               turnLabel.setText("Opponent's Turn");
           }
       }
@@ -577,17 +577,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     // We check ships in reverse order (5 down to 1) so we grab the one on top
     
     // Check click on Ship 5
-    boolean isVertical = Math.round(thePanel.dblShip5rot / (Math.PI / 2)) % 2 != 0;
+    boolean blnVertical = Math.round(thePanel.dblShip5rot / (Math.PI / 2)) % 2 != 0;
     
-    int w = thePanel.ship5Image.getWidth();
-    int h = thePanel.ship5Image.getHeight();
+    int intWidth = thePanel.ship5Image.getWidth();
+    int intHeight = thePanel.ship5Image.getHeight();
 
-    if(isVertical){
-      w = thePanel.ship5Image.getHeight();
-      h = thePanel.ship5Image.getWidth();
+    if(blnVertical){
+      intWidth = thePanel.ship5Image.getHeight();
+      intHeight = thePanel.ship5Image.getWidth();
     }
 
-    if(evt.getX() >= thePanel.intShip5X && evt.getX() <= thePanel.intShip5X + w && evt.getY() >= thePanel.intShip5Y && evt.getY() <= thePanel.intShip5Y + h){
+    if(evt.getX() >= thePanel.intShip5X && evt.getX() <= thePanel.intShip5X + intWidth && evt.getY() >= thePanel.intShip5Y && evt.getY() <= thePanel.intShip5Y + intHeight){
         intDrag = 5;
         intOffsetX = evt.getX() - thePanel.intShip5X;
         intOffsetY = evt.getY() - thePanel.intShip5Y;
@@ -597,17 +597,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
 
     // Check click on Ship 4
-    isVertical = Math.round(thePanel.dblShip4rot / (Math.PI / 2)) % 2 != 0;
+    blnVertical = Math.round(thePanel.dblShip4rot / (Math.PI / 2)) % 2 != 0;
 
-    w = thePanel.ship4Image.getWidth();
-    h = thePanel.ship4Image.getHeight();
+    intWidth = thePanel.ship4Image.getWidth();
+    intHeight = thePanel.ship4Image.getHeight();
 
-    if(isVertical){
-      w = thePanel.ship4Image.getHeight();
-      h = thePanel.ship4Image.getWidth();
+    if(blnVertical){
+      intWidth = thePanel.ship4Image.getHeight();
+      intHeight = thePanel.ship4Image.getWidth();
     }
 
-    if(evt.getX() >= thePanel.intShip4X && evt.getX() <= thePanel.intShip4X + w && evt.getY() >= thePanel.intShip4Y && evt.getY() <= thePanel.intShip4Y + h){
+    if(evt.getX() >= thePanel.intShip4X && evt.getX() <= thePanel.intShip4X + intWidth && evt.getY() >= thePanel.intShip4Y && evt.getY() <= thePanel.intShip4Y + intHeight){
         intDrag = 4;
         intOffsetX = evt.getX() - thePanel.intShip4X;
         intOffsetY = evt.getY() - thePanel.intShip4Y;
@@ -617,17 +617,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
 
     // Check click on Ship 2
-    isVertical = Math.round(thePanel.dblShip2rot / (Math.PI / 2)) % 2 != 0;
+    blnVertical = Math.round(thePanel.dblShip2rot / (Math.PI / 2)) % 2 != 0;
 
-    w = thePanel.ship2Image.getWidth();
-    h = thePanel.ship2Image.getHeight();
+    intWidth = thePanel.ship2Image.getWidth();
+    intHeight = thePanel.ship2Image.getHeight();
 
-    if(isVertical){
-      w = thePanel.ship2Image.getHeight();
-      h = thePanel.ship2Image.getWidth();
+    if(blnVertical){
+      intWidth = thePanel.ship2Image.getHeight();
+      intHeight = thePanel.ship2Image.getWidth();
     }
 
-    if(evt.getX() >= thePanel.intShip2X && evt.getX() <= thePanel.intShip2X + w && evt.getY() >= thePanel.intShip2Y && evt.getY() <= thePanel.intShip2Y + h){
+    if(evt.getX() >= thePanel.intShip2X && evt.getX() <= thePanel.intShip2X + intWidth && evt.getY() >= thePanel.intShip2Y && evt.getY() <= thePanel.intShip2Y + intHeight){
         intDrag = 3;
         intOffsetX = evt.getX() - thePanel.intShip2X;
         intOffsetY = evt.getY() - thePanel.intShip2Y;
@@ -637,17 +637,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
 
     // Check click on Ship 3 (2nd one)
-    isVertical = Math.round(thePanel.dbl2Ship3rot / (Math.PI / 2)) % 2 != 0;
+    blnVertical = Math.round(thePanel.dbl2Ship3rot / (Math.PI / 2)) % 2 != 0;
 
-    w = thePanel.twoShip3Image.getWidth();
-    h = thePanel.twoShip3Image.getHeight();
+    intWidth = thePanel.twoShip3Image.getWidth();
+    intHeight = thePanel.twoShip3Image.getHeight();
 
-    if(isVertical){
-      w = thePanel.twoShip3Image.getHeight();
-      h = thePanel.twoShip3Image.getWidth();
+    if(blnVertical){
+      intWidth = thePanel.twoShip3Image.getHeight();
+      intHeight = thePanel.twoShip3Image.getWidth();
     }   
 
-    if(evt.getX() >= thePanel.int2Ship3X && evt.getX() <= thePanel.int2Ship3X + w && evt.getY() >= thePanel.int2Ship3Y && evt.getY() <= thePanel.int2Ship3Y + h){
+    if(evt.getX() >= thePanel.int2Ship3X && evt.getX() <= thePanel.int2Ship3X + intWidth && evt.getY() >= thePanel.int2Ship3Y && evt.getY() <= thePanel.int2Ship3Y + intHeight){
         intDrag = 2;
         intOffsetX = evt.getX() - thePanel.int2Ship3X;
         intOffsetY = evt.getY() - thePanel.int2Ship3Y;
@@ -657,17 +657,17 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
     }
 
     // Check click on Ship 3 (1st one)
-    isVertical = Math.round(thePanel.dbl1Ship3rot / (Math.PI / 2)) % 2 != 0;
+    blnVertical = Math.round(thePanel.dbl1Ship3rot / (Math.PI / 2)) % 2 != 0;
 
-    w = thePanel.oneShip3Image.getWidth();
-    h = thePanel.oneShip3Image.getHeight();
+    intWidth = thePanel.oneShip3Image.getWidth();
+    intHeight = thePanel.oneShip3Image.getHeight();
 
-    if(isVertical){
-      w = thePanel.oneShip3Image.getHeight();
-      h = thePanel.oneShip3Image.getWidth();
+    if(blnVertical){
+      intWidth = thePanel.oneShip3Image.getHeight();
+      intHeight = thePanel.oneShip3Image.getWidth();
     }
 
-    if(evt.getX() >= thePanel.int1Ship3X && evt.getX() <= thePanel.int1Ship3X + w && evt.getY() >= thePanel.int1Ship3Y && evt.getY() <= thePanel.int1Ship3Y + h){
+    if(evt.getX() >= thePanel.int1Ship3X && evt.getX() <= thePanel.int1Ship3X + intWidth && evt.getY() >= thePanel.int1Ship3Y && evt.getY() <= thePanel.int1Ship3Y + intHeight){
         intDrag = 1;
         intOffsetX = evt.getX() - thePanel.int1Ship3X;
         intOffsetY = evt.getY() - thePanel.int1Ship3Y;
@@ -683,62 +683,62 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    */
   @Override
   public void mouseReleased(MouseEvent evt) {
-    int gridX = 141;
-    int gridY = 125;
+    int intGridX = 141;
+    int intGridY = 125;
     int gridSize = 400;
     
     if(intDrag != 0){
-      int x = 0; 
-      int y = 0; 
+      int intX = 0; 
+      int intY = 0; 
       double rot = 0; 
       BufferedImage img = null;
         
       // Determine which ship was being dragged
       if(intDrag == 1){
-        x = thePanel.int1Ship3X; 
-        y = thePanel.int1Ship3Y; 
+        intX = thePanel.int1Ship3X; 
+        intY = thePanel.int1Ship3Y; 
         rot = thePanel.dbl1Ship3rot; 
         img = thePanel.oneShip3Image;
 
       }else if(intDrag == 2){
-        x = thePanel.int2Ship3X; 
-        y = thePanel.int2Ship3Y; 
+        intX = thePanel.int2Ship3X; 
+        intY = thePanel.int2Ship3Y; 
         rot = thePanel.dbl2Ship3rot; 
         img = thePanel.twoShip3Image;
 
       }else if(intDrag == 3){
-        x = thePanel.intShip2X; 
-        y = thePanel.intShip2Y; 
+        intX = thePanel.intShip2X; 
+        intY = thePanel.intShip2Y; 
         rot = thePanel.dblShip2rot; 
         img = thePanel.ship2Image;
 
       }else if(intDrag == 4){
-        x = thePanel.intShip4X; 
-        y = thePanel.intShip4Y; 
+        intX = thePanel.intShip4X; 
+        intY = thePanel.intShip4Y; 
         rot = thePanel.dblShip4rot; 
         img = thePanel.ship4Image;
 
       }else if(intDrag == 5){
-        x = thePanel.intShip5X; 
-        y = thePanel.intShip5Y; 
+        intX = thePanel.intShip5X; 
+        intY = thePanel.intShip5Y; 
         rot = thePanel.dblShip5rot; 
         img = thePanel.ship5Image;
       }
         
         if(img != null){
-          boolean isVertical = Math.round(rot / (Math.PI / 2)) % 2 != 0;
+          boolean blnVertical = Math.round(rot / (Math.PI / 2)) % 2 != 0;
 
           int w = img.getWidth();
           int h = img.getHeight();
 
-          if(isVertical){
+          if(blnVertical){
             w = img.getHeight();
             h = img.getWidth();
           }
           
           // Check if ANY part of the ship is outside the grid
-          boolean outOfBounds = x < gridX - 30 || x + w > gridX + gridSize + 30 || y < gridY - 30 || y + h > gridY + gridSize + 30;
-          boolean overlapping = checkOverlap(intDrag, x, y, w, h);
+          boolean outOfBounds = intX < intGridX - 30 || intX + w > intGridX + gridSize + 30 || intY < intGridY - 30 || intY + h > intGridY + gridSize + 30;
+          boolean overlapping = checkOverlap(intDrag, intX, intY, w, h);
           if(outOfBounds || overlapping){
             // Reset to original position
             if(intDrag == 1){ 
@@ -807,7 +807,7 @@ public class mainProgram implements ActionListener, MouseListener, MouseMotionLi
    * @param result Result string
    */
   public void gameOver(String result){
-  battleOn = false;
+  blnBattleOn = false;
   
   JPanel gameOverPanel = new JPanel();
   gameOverPanel.setLayout(null);

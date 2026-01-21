@@ -64,10 +64,7 @@ public class helpPanel extends JPanel implements ActionListener {
     }
 }
 
-/**
- * Inner class for the interactive ship demo<p>
- * Allows users to practice dragging and rotating a ship
- */
+ // Interactive ship placement demo component
 class ShipPlacementDemo extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
     // Properties
@@ -91,9 +88,9 @@ class ShipPlacementDemo extends JPanel implements MouseListener, MouseMotionList
 
         // Draw grid
         g.setColor(Color.BLACK);
-        for (int r = 0; r < gridSize; r++) {
-            for (int c = 0; c < gridSize; c++) {
-                g.drawRect(gridX + c * cellSize, gridY + r * cellSize, cellSize, cellSize);
+        for (int intR = 0; intR < gridSize; intR++) {
+            for (int intC = 0; intC < gridSize; intC++) {
+                g.drawRect(gridX + intC * cellSize, gridY + intR * cellSize, cellSize, cellSize);
             }
         }
 
@@ -108,46 +105,46 @@ class ShipPlacementDemo extends JPanel implements MouseListener, MouseMotionList
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent evt) {
         requestFocusInWindow();
 
         // Calculate hit box based on rotation (swap width/height if ship is vertical)
         boolean isVertical = Math.round(dblRot / (Math.PI / 2)) % 2 != 0;
         int adjX = isVertical ? 40 : 0;
         int adjY = isVertical ? -40 : 0;
-        int vW = isVertical ? 40 : 120;
-        int vH = isVertical ? 120 : 40;
+        int intW = isVertical ? 40 : 120;
+        int intH = isVertical ? 120 : 40;
 
-        if (e.getX() >= shipX + adjX && e.getX() <= shipX + adjX + vW
-         && e.getY() >= shipY + adjY && e.getY() <= shipY + adjY + vH) {
+        if (evt.getX() >= shipX + adjX && evt.getX() <= shipX + adjX + intW
+         && evt.getY() >= shipY + adjY && evt.getY() <= shipY + adjY + intH) {
 
             blnDrag = true;
-            offsetX = e.getX() - shipX;
-            offsetY = e.getY() - shipY;
+            offsetX = evt.getX() - shipX;
+            offsetY = evt.getY() - shipY;
         }
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent evt) {
         if (!blnDrag){
             return;
         }
 
-        int rawX = e.getX() - offsetX;
-        int rawY = e.getY() - offsetY;
+        int rawX = evt.getX() - offsetX;
+        int rawY = evt.getY() - offsetY;
 
         boolean isVertical = Math.round(dblRot / (Math.PI / 2)) % 2 != 0;
         int adjX = isVertical ? 40 : 0;
         int adjY = isVertical ? -40 : 0;
-        int vW = isVertical ? 40 : 120;
-        int vH = isVertical ? 120 : 40;
+        int intW = isVertical ? 40 : 120;
+        int intH = isVertical ? 120 : 40;
 
         int currentVisualX = rawX + adjX;
         int currentVisualY = rawY + adjY;
 
         // Snap to grid
-        if (currentVisualX >= gridX - 10 && currentVisualX + vW <= gridX + gridSize * cellSize + 10 &&
-            currentVisualY >= gridY - 10 && currentVisualY + vH <= gridY + gridSize * cellSize + 10) {
+        if (currentVisualX >= gridX - 10 && currentVisualX + intW <= gridX + gridSize * cellSize + 10 &&
+            currentVisualY >= gridY - 10 && currentVisualY + intH <= gridY + gridSize * cellSize + 10) {
 
             shipX = gridX + Math.round((currentVisualX - gridX) / (float)cellSize) * cellSize - adjX;
             shipY = gridY + Math.round((currentVisualY - gridY) / (float)cellSize) * cellSize - adjY;
@@ -160,26 +157,31 @@ class ShipPlacementDemo extends JPanel implements MouseListener, MouseMotionList
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent evt) {
         blnDrag = false;
     }
 
     // Detect 'R' key press to rotate ship
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == 'r') {
+    public void keyPressed(KeyEvent evt) {
+        if (evt.getKeyChar() == 'r') {
             dblRot += Math.PI / 2;
             repaint();
         }
     }
 
-    // Unused but required
-    public void mouseClicked(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
-    public void mouseMoved(MouseEvent e) {}
-    public void keyTyped(KeyEvent e) {}
-    public void keyReleased(KeyEvent e) {}
+    public void mouseClicked(MouseEvent evt) {
+    }
+    public void mouseEntered(MouseEvent evt) {
+    }
+    public void mouseExited(MouseEvent evt) {
+    }
+    public void mouseMoved(MouseEvent evt) {
+    }
+    public void keyTyped(KeyEvent evt) {
+    }
+    public void keyReleased(KeyEvent evt) {
+    }
 
     // Constructor
     public ShipPlacementDemo() {
